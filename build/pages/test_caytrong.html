@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý nông nghiệp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    table thead th {
+      background-color: #16a34a; /* xanh lá đậm */
+      color: white !important;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    table tbody tr:nth-child(even) {
+      background-color: #f0fdf4; /* xanh lá nhạt */
+    }
+    table tbody tr:hover {
+      background-color: #dcfce7; /* hover highlight */
+      transition: 0.2s;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-green-50 min-h-screen flex">
+  
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 flex flex-col w-64 bg-gradient-to-b from-green-600 to-green-400 shadow-xl rounded-r-3xl z-50">
+    <div class="flex items-center gap-3 px-8 py-6">
+      <img src="../assets/img/logo-ct-dark.png" class="h-10" alt="main_logo" />
+      <span class="font-bold text-xl text-white">Quản lý nông nghiệp</span>
+    </div>
+    <hr class="border-t border-green-300 mx-8 mb-4" />
+    
+    <!-- Menu -->
+    <nav class="flex flex-col gap-2 px-4">
+      <a href="trang_chu.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-home text-xl text-green-500"></i>
+        <span>Trang chủ</span>
+      </a>
+      <a href="bang_thong_tin.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-table text-xl text-yellow-400"></i>
+        <span>Bảng thông tin</span>
+      </a>
+      <a href="admin_cay_trong.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-seedling text-xl text-emerald-400"></i>
+        <span>Quản lý cây trồng</span>
+      </a>
+      <a href="admin_nong_dan.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-users text-xl text-cyan-400"></i>
+        <span>Quản lý nông dân</span>
+      </a>
+      <a href="admin_thua_dat.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-map-marked-alt text-xl text-red-400"></i>
+        <span>Quản lý thửa đất</span>
+      </a>
+
+      <div class="mt-6 mb-2 px-4 text-xs text-gray-500 uppercase tracking-wide font-semibold">Trang cá nhân</div>
+
+      <a href="dang_nhap.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-sign-in-alt text-xl text-orange-400"></i>
+        <span>Đăng nhập</span>
+      </a>
+      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
+        <i class="fas fa-user-plus text-xl text-cyan-400"></i>
+        <span>Đăng ký</span>
+      </a>
+    </nav>
+  </aside>
