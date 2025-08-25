@@ -6,32 +6,56 @@ ini_set('display_errors', 1);
 include 'config.php';
 header('Content-Type: application/json; charset=UTF-8');
 
+// Nhận dữ liệu từ POST
 $MaTD   = $_POST['MaTD']   ?? '';
+$TenTD  = $_POST['TenTD']  ?? '';
 $MaND   = $_POST['MaND']   ?? '';
 $DiaChi = $_POST['DiaChi'] ?? '';
+$MaC    = $_POST['MaC']    ?? '';
+$TGBD   = $_POST['ThoiGianBatDau']  ?? '';
+$TGKT   = $_POST['ThoiGianKetThuc'] ?? '';
 
-if (!empty($MaTD) && !empty($MaND) && !empty($DiaChi)) {
+// Kiểm tra dữ liệu đầu vào
+if (!empty($MaTD) && !empty($TenTD) && !empty($MaND) && !empty($DiaChi) && !empty($MaC) && !empty($TGBD) && !empty($TGKT)) {
     try {
         // ==== 1. Kiểm tra nông dân tồn tại ====
-        $checkStmt = $conn->prepare("SELECT MaND FROM nongdan WHERE MaND = ?");
-        $checkStmt->bind_param("s", $MaND);
-        $checkStmt->execute();
-        $result = $checkStmt->get_result();
+        $checkND = $conn->prepare("SELECT MaND FROM nongdan WHERE MaND = ?");
+        $checkND->bind_param("s", $MaND);
+        $checkND->execute();
+        $rsND = $checkND->get_result();
 
-        if ($result->num_rows === 0) {
+        if ($rsND->num_rows === 0) {
             echo json_encode([
                 "status" => "error",
-                "message" => "Nông dân không tồn tại, không thể thêm thửa đất"
+                "message" => "Nông dân không tồn tại"
             ], JSON_UNESCAPED_UNICODE);
-            $checkStmt->close();
+            $checkND->close();
             $conn->close();
             exit;
         }
-        $checkStmt->close();
+        $checkND->close();
 
-        // ==== 2. Nếu tồn tại thì cho insert ====
-        $stmt = $conn->prepare("INSERT INTO thuadat (MaTD, MaND, DiaChi) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $MaTD, $MaND, $DiaChi);
+        // ==== 2. Kiểm tra cây trồng tồn tại ====
+        $checkC = $conn->prepare("SELECT MaC FROM caytrong WHERE MaC = ?");
+        $checkC->bind_param("s", $MaC);
+        $checkC->execute();
+        $rsC = $checkC->get_result();
+
+        if ($rsC->num_rows === 0) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Cây trồng không tồn tại"
+            ], JSON_UNESCAPED_UNICODE);
+            $checkC->close();
+            $conn->close();
+            exit;
+        }
+        $checkC->close();
+
+        // ==== 3. Thêm dữ liệu vào bảng thuadat ====
+        $stmt = $conn->prepare("INSERT INTO thuadat (MaTD, TenTD, MaND, DiaChi, MaC, ThoiGianBatDau, ThoiGianKetThuc) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $MaTD, $TenTD, $MaND, $DiaChi, $MaC, $TGBD, $TGKT);
 
         if ($stmt->execute()) {
             echo json_encode([
@@ -61,4 +85,3 @@ if (!empty($MaTD) && !empty($MaND) && !empty($DiaChi)) {
 }
 
 $conn->close();
-?>

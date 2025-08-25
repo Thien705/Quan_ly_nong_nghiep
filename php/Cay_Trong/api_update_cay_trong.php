@@ -23,23 +23,28 @@ if ($conn->connect_error) {
 // Kiểm tra dữ liệu đầu vào
 if (
     !isset($_POST['MaC']) || empty(trim($_POST['MaC'])) ||
-    !isset($_POST['TenC']) || !isset($_POST['CachSuDung'])
+    !isset($_POST['TenC']) || !isset($_POST['CachCanhTac']) ||
+    !isset($_POST['PhanBon']) || !isset($_POST['NguonGoc'])
 ) {
     http_response_code(422);
     echo json_encode([
         "success" => false,
-        "message" => "Thiếu dữ liệu đầu vào (MaC, TenC, CachSuDung)"
+        "message" => "Thiếu dữ liệu đầu vào (MaC, TenC, CachCanhTac, PhanBon, NguonGoc)"
     ]);
     exit;
 }
 
-$mac = trim($_POST['MaC']);
-$tenc = trim($_POST['TenC']);
-$cachsudung = trim($_POST['CachSuDung']);
+$MaC = trim($_POST['MaC']);
+$TenC = trim($_POST['TenC']);
+$CachCanhTac = trim($_POST['CachCanhTac']);
+$PhanBon = trim($_POST['PhanBon']);
+$NguonGoc = trim($_POST['NguonGoc']);
 
 // Câu truy vấn cập nhật
-$stmt = $conn->prepare("UPDATE caytrong SET TenC = ?, CachSuDung = ? WHERE MaC = ?");
-$stmt->bind_param("sss", $tenc, $cachsudung, $mac);
+$stmt = $conn->prepare("UPDATE caytrong 
+                        SET TenC = ?, CachCanhTac = ?, PhanBon = ?, NguonGoc = ? 
+                        WHERE MaC = ?");
+$stmt->bind_param("sssss", $TenC, $CachCanhTac, $PhanBon, $NguonGoc, $MaC);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
@@ -53,7 +58,7 @@ if ($stmt->execute()) {
         echo json_encode([
             "success" => false,
             "status" => "not_found",
-            "message" => "Không tìm thấy hoặc dữ liệu không thay đổi"
+            "message" => "Không tìm thấy cây trồng hoặc dữ liệu không thay đổi"
         ]);
     }
 } else {

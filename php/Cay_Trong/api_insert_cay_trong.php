@@ -5,17 +5,19 @@ header('Content-Type: application/json');
 // Lấy dữ liệu từ POST
 $MaC = $_POST['MaC'] ?? '';
 $TenC = $_POST['TenC'] ?? '';
-$CachSuDung = $_POST['CachSuDung'] ?? '';
+$CachCanhTac = $_POST['CachCanhTac'] ?? '';
+$PhanBon = $_POST['PhanBon'] ?? '';
+$NguonGoc = $_POST['NguonGoc'] ?? '';
 
 // Kiểm tra dữ liệu không được rỗng
-if ($MaC && $TenC && $CachSuDung) {
-    $stmt = $conn->prepare("INSERT INTO caytrong (MaC, TenC, CachSuDung) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $MaC, $TenC, $CachSuDung);
+if ($MaC && $TenC && $CachCanhTac && $PhanBon && $NguonGoc) {
+    $stmt = $conn->prepare("INSERT INTO caytrong (MaC, TenC, CachCanhTac, PhanBon, NguonGoc) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $MaC, $TenC, $CachCanhTac, $PhanBon, $NguonGoc);
 
     if ($stmt->execute()) {
-        echo json_encode(array("status" => "success", "message" => "Thêm thành công"));
+        echo json_encode(["status" => "success", "message" => "Thêm cây trồng thành công"]);
     } else {
-        echo json_encode(array("status" => "error", "message" => "Lỗi khi thêm dữ liệu"));
+        echo json_encode(["status" => "error", "message" => "Lỗi khi thêm dữ liệu: " . $stmt->error]);
     }
 
     $stmt->close();

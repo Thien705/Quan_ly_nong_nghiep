@@ -73,19 +73,41 @@
 
   <!-- Main content -->
   <main class="flex-1 ml-64 p-6 space-y-8">
+    <!-- Khung tên user như trang chủ, ở giữa -->
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-2xl font-bold" id="welcome-title">Xin chào</h1>
+      </div>
+      <div id="user-info" class="flex items-center gap-2">
+        <span class="font-semibold text-green-700 border border-green-500 rounded px-3 py-1 bg-white shadow" id="username-display"></span>
+        <a href="dang_nhap.html" class="text-sm text-blue-500 underline">Đăng xuất</a>
+      </div>
+    </div>
+    <!-- Thanh tìm kiếm ở giữa -->
+    <div class="flex justify-center mb-8">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Tìm kiếm thông tin..."
+        class="px-4 py-2 rounded-lg border border-green-300 shadow focus:outline-none focus:ring-2 focus:ring-green-400 w-80"
+      />
+    </div>
+
     <!-- Bảng cây trồng -->
-    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6 border-b bg-green-50">
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">  
+      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">🌱 Danh sách các cây trồng</h6>
       </div>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
-          <thead>
+          <thead class="sticky top-0 z-10">
             <tr>
               <th class="px-6 py-3 text-left">STT</th>
               <th class="px-6 py-3 text-left">MÃ CÂY</th>
               <th class="px-6 py-3 text-left">TÊN CÂY</th>
-              <th class="px-6 py-3 text-left">CÁCH SỬ DỤNG</th>
+              <th class="px-6 py-3 text-left">CÁCH CANH TÁC</th>
+              <th class="px-6 py-3 text-left">PHÂN BÓN</th>
+              <th class="px-6 py-3 text-left">NGUỒN GỐC</th>
             </tr>
           </thead>
           <tbody class="addListCayTrong"></tbody>
@@ -95,12 +117,12 @@
 
     <!-- Bảng nông dân -->
     <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6 border-b bg-green-50">
+      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">👩‍🌾 Danh sách nông dân</h6>
       </div>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
-          <thead>
+          <thead class="sticky top-0 z-10">
             <tr>
               <th class="px-6 py-3 text-left">STT</th>
               <th class="px-6 py-3 text-left">MÃ ND</th>
@@ -115,17 +137,21 @@
 
     <!-- Bảng thửa đất -->
     <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6 border-b bg-green-50">
+      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">📍 Danh sách các thửa đất</h6>
       </div>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
-          <thead>
+          <thead class="sticky top-0 z-10">
             <tr>
               <th class="px-6 py-3 text-left">STT</th>
               <th class="px-6 py-3 text-left">MÃ THỬA ĐẤT</th>
+              <th class="px-6 py-3 text-left">TÊN THỬA ĐẤT</th>
               <th class="px-6 py-3 text-left">MÃ NÔNG DÂN</th>
               <th class="px-6 py-3 text-left">ĐỊA CHỈ</th>
+              <th class="px-6 py-3 text-left">MÃ CÂY</th>
+              <th class="px-6 py-3 text-left">BẮT ĐẦU</th>
+              <th class="px-6 py-3 text-left">KẾT THÚC</th>
             </tr>
           </thead>
           <tbody class="addListThuaDat"></tbody>
@@ -138,78 +164,180 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-  function showCayTrong(){
-      $.ajax({
-          url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
-          type: "POST",
-          dataType: "json",
-          success: function(res) {
-              let s = '';
-              let stt = 1;
-              res.forEach(item => {
-                  s += `
-                  <tr>
-                    <td class="px-6 py-3">${stt++}</td>
-                    <td class="px-6 py-3">${item.MaC}</td>
-                    <td class="px-6 py-3">${item.TenC}</td>
-                    <td class="px-6 py-3">${item.CachSuDung}</td>
-                  </tr>`;
-              });
-              $('.addListCayTrong').html(s);
-          }
-      });
+  let listNongDan = [];
+let listCayTrong = [];
+
+function showNongDan(){
+    $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+            listNongDan = res; // Lưu lại danh sách nông dân
+            let s = '';
+            let stt = 1;
+            res.forEach(item => {
+                s += `
+                <tr>
+                  <td class="px-6 py-3">${stt++}</td>
+                  <td class="px-6 py-3">${item.MaND}</td>
+                  <td class="px-6 py-3">${item.HoTen}</td>
+                  <td class="px-6 py-3">${item.DiaChi}</td>
+                </tr>`;
+            });
+            $('.addListNongDan').html(s);
+        }
+    });
+}
+
+function showCayTrong(){
+    $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+            listCayTrong = res; // Lưu lại danh sách cây trồng
+            let s = '';
+            let stt = 1;
+            res.forEach(item => {
+                s += `
+                <tr>
+                  <td class="px-6 py-3">${stt++}</td>
+                  <td class="px-6 py-3">${item.MaC}</td>
+                  <td class="px-6 py-3">${item.TenC}</td>
+                  <td class="px-6 py-3">${item.CachCanhTac}</td>
+                  <td class="px-6 py-3">${item.PhanBon}</td>
+                  <td class="px-6 py-3">${item.NguonGoc}</td>
+                </tr>`;
+            });
+            $('.addListCayTrong').html(s);
+        }
+    });
+}
+
+function showThuaDat(){
+    $.ajax({
+        url: "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+            let s = '';
+            let stt = 1;
+            res.forEach(item => {
+                s += `
+                <tr>
+                  <td class="px-6 py-3">${stt++}</td>
+                  <td class="px-6 py-3">${item.MaTD}</td>
+                  <td class="px-6 py-3">${item.TenTD}</td>
+                  <td class="px-6 py-3">${item.MaND}</td>
+                  <td class="px-6 py-3">${item.DiaChi}</td>
+                  <td class="px-6 py-3">${item.MaC}</td>
+                  <td class="px-6 py-3">${item.ThoiGianBatDau}</td>
+                  <td class="px-6 py-3">${item.ThoiGianKetThuc}</td>
+                </tr>`;
+            });
+            $('.addListThuaDat').html(s);
+        }
+    });
+}
+
+  // Hàm lọc bảng theo từ khóa
+  function filterTables(keyword) {
+  keyword = keyword.toLowerCase();
+
+  // Tìm các mã cây liên quan đến keyword ở bảng cây trồng
+  let matchedMaC = [];
+  $('.addListCayTrong tr').each(function() {
+    let maC = $(this).find('td').eq(1).text().trim();
+    let tenC = $(this).find('td').eq(2).text().toLowerCase();
+    if (tenC.indexOf(keyword) > -1 || maC.toLowerCase().indexOf(keyword) > -1) {
+      matchedMaC.push(maC);
+    }
+  });
+
+  // Tìm các mã nông dân liên quan đến keyword ở bảng nông dân
+  let matchedMaND = [];
+  $('.addListNongDan tr').each(function() {
+    let maND = $(this).find('td').eq(1).text().trim();
+    let hoTen = $(this).find('td').eq(2).text().toLowerCase();
+    if (hoTen.indexOf(keyword) > -1 || maND.toLowerCase().indexOf(keyword) > -1) {
+      matchedMaND.push(maND);
+    }
+  });
+
+  // Tìm các thửa đất liên quan đến mã cây hoặc mã nông dân
+  let matchedMaTD = [];
+  $('.addListThuaDat tr').each(function() {
+    let maTD = $(this).find('td').eq(1).text().trim();
+    let maND_td = $(this).find('td').eq(3).text().trim();
+    let maC_td = $(this).find('td').eq(5).text().trim();
+    if (matchedMaC.includes(maC_td) || matchedMaND.includes(maND_td)) {
+      matchedMaTD.push(maTD);
+    }
+  });
+
+  // Nếu search cây trồng, lấy MaND từ thửa đất liên quan và hiện nông dân đó
+  if (matchedMaC.length > 0 && matchedMaND.length === 0) {
+    $('.addListThuaDat tr').each(function() {
+      let maC_td = $(this).find('td').eq(5).text().trim();
+      let maND_td = $(this).find('td').eq(3).text().trim();
+      if (matchedMaC.includes(maC_td)) {
+        if (!matchedMaND.includes(maND_td)) matchedMaND.push(maND_td);
+      }
+    });
   }
 
-  function showNongDan(){
-      $.ajax({
-          url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
-          type: "POST",
-          dataType: "json",
-          success: function(res) {
-              let s = '';
-              let stt = 1;
-              res.forEach(item => {
-                  s += `
-                  <tr>
-                    <td class="px-6 py-3">${stt++}</td>
-                    <td class="px-6 py-3">${item.MaND}</td>
-                    <td class="px-6 py-3">${item.HoTen}</td>
-                    <td class="px-6 py-3">${item.DiaChi}</td>
-                  </tr>`;
-              });
-              $('.addListNongDan').html(s);
-          }
-      });
+  // Nếu search nông dân, lấy MaC từ thửa đất liên quan và hiện cây trồng đó
+  if (matchedMaND.length > 0 && matchedMaC.length === 0) {
+    $('.addListThuaDat tr').each(function() {
+      let maND_td = $(this).find('td').eq(3).text().trim();
+      let maC_td = $(this).find('td').eq(5).text().trim();
+      if (matchedMaND.includes(maND_td)) {
+        if (!matchedMaC.includes(maC_td)) matchedMaC.push(maC_td);
+      }
+    });
   }
 
-  function showThuaDat(){
-      $.ajax({
-          url: "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php",
-          type: "POST",
-          dataType: "json",
-          success: function(res) {
-              let s = '';
-              let stt = 1;
-              res.forEach(item => {
-                  s += `
-                  <tr>
-                    <td class="px-6 py-3">${stt++}</td>
-                    <td class="px-6 py-3">${item.MaTD}</td>
-                    <td class="px-6 py-3">${item.MaND}</td>
-                    <td class="px-6 py-3">${item.DiaChi}</td>
-                  </tr>`;
-              });
-              $('.addListThuaDat').html(s);
-          }
-      });
-  }
+  // Hiện cây trồng liên quan
+  $('.addListCayTrong tr').each(function() {
+    let maC = $(this).find('td').eq(1).text().trim();
+    let tenC = $(this).find('td').eq(2).text().toLowerCase();
+    $(this).toggle(matchedMaC.includes(maC) || tenC.indexOf(keyword) > -1);
+  });
+
+  // Hiện nông dân liên quan
+  $('.addListNongDan tr').each(function() {
+    let maND = $(this).find('td').eq(1).text().trim();
+    let hoTen = $(this).find('td').eq(2).text().toLowerCase();
+    $(this).toggle(matchedMaND.includes(maND) || hoTen.indexOf(keyword) > -1);
+  });
+
+  // Hiện thửa đất liên quan
+  $('.addListThuaDat tr').each(function() {
+    let maTD = $(this).find('td').eq(1).text().trim();
+    $(this).toggle(matchedMaTD.includes(maTD));
+  });
+}
 
   $(document).ready(function(){
-      showCayTrong();
-      showNongDan();
-      showThuaDat();
+    showCayTrong();
+    showNongDan();
+    showThuaDat();
+
+    $('#searchInput').on('input', function() {
+      filterTables($(this).val());
+    });
   });
+
+  // Hiển thị tên đăng nhập ở góc trên phải và tiêu đề
+  const username = localStorage.getItem("username");
+  if (username) {
+    document.getElementById("username-display").textContent = username;
+    document.getElementById("welcome-title").textContent = `Xin chào ${username}`;
+  } else {
+    document.getElementById("username-display").textContent = "Khách";
+    document.getElementById("welcome-title").textContent = "Xin chào Khách";
+  }
   </script>
 </body>
 </html>
-  
