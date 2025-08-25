@@ -42,7 +42,6 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $row = $result->fetch_assoc();
-
     if (password_verify($password, $row["hashpass"])) {
         echo json_encode([
             "status" => "success",
@@ -56,11 +55,11 @@ if ($result->num_rows === 1) {
         ]);
     } else {
         http_response_code(401);
-        echo json_encode(["status" => "error", "message" => "Sai mật khẩu"]);
+        echo json_encode(["status" => "error", "message" => "Sai mật khẩu hoặc tên đăng nhập"]);
     }
 } else {
     http_response_code(404);
-    echo json_encode(["status" => "error", "message" => "Không tìm thấy user"]);
+    echo json_encode(["status" => "error", "message" => "Sai mật khẩu hoặc tên đăng nhập"]);
 }
 
 $stmt->close();

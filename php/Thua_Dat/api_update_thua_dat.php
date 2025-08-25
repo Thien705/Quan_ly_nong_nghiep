@@ -9,15 +9,21 @@ header('Content-Type: application/json; charset=UTF-8');
 
 // Lấy dữ liệu từ POST
 $MaTD   = $_POST['MaTD']   ?? '';
+$TenTD  = $_POST['TenTD']  ?? '';
 $MaND   = $_POST['MaND']   ?? '';
 $DiaChi = $_POST['DiaChi'] ?? '';
+$MaC    = $_POST['MaC']    ?? '';
+$TGBD   = $_POST['ThoiGianBatDau']  ?? '';
+$TGKT   = $_POST['ThoiGianKetThuc'] ?? '';
 
 // Kiểm tra dữ liệu đầu vào
-if (!empty($MaTD) && !empty($MaND) && !empty($DiaChi)) {
+if (!empty($MaTD) && !empty($TenTD) && !empty($MaND) && !empty($DiaChi) && !empty($MaC) && !empty($TGBD) && !empty($TGKT)) {
     try {
-        // Chuẩn bị câu lệnh UPDATE bảng thuadat
-        $stmt = $conn->prepare("UPDATE thuadat SET MaND = ?, DiaChi = ? WHERE MaTD = ?");
-        $stmt->bind_param("sss", $MaND, $DiaChi, $MaTD);
+        // Chuẩn bị câu lệnh UPDATE
+        $stmt = $conn->prepare("UPDATE thuadat 
+            SET TenTD = ?, MaND = ?, DiaChi = ?, MaC = ?, ThoiGianBatDau = ?, ThoiGianKetThuc = ? 
+            WHERE MaTD = ?");
+        $stmt->bind_param("sssssss", $TenTD, $MaND, $DiaChi, $MaC, $TGBD, $TGKT, $MaTD);
 
         // Thực thi
         if ($stmt->execute()) {
@@ -54,4 +60,3 @@ if (!empty($MaTD) && !empty($MaND) && !empty($DiaChi)) {
 }
 
 $conn->close();
-?>

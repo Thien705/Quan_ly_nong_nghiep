@@ -53,10 +53,6 @@
             </a>
           </li>
           <li>
-            <a class="block px-4 py-2 mr-2 font-normal text-white transition-all ease-in-out duration-250 lg-max:opacity-0 lg-max:text-slate-700 text-sm lg:px-2 lg:hover:text-white/75" href="../pages/profile.html">
-              <i class="mr-1 text-white lg-max:text-slate-700 fa fa-user opacity-60"></i>
-              Profile
-            </a>
           </li>
           <li>
             <a class="block px-4 py-2 mr-2 font-normal text-white transition-all ease-in-out duration-250 lg-max:opacity-0 lg-max:text-slate-700 text-sm lg:px-2 lg:hover:text-white/75" href="../pages/dang_ky.html">
@@ -156,13 +152,31 @@
   <script>
   $("#loginForm").submit(function(e) {
     e.preventDefault();
-    $.post("../../php/Users/api_dang_nhap.php", $(this).serialize(), function(res) {
-      if(res.status === "success") {
-        window.location.href = "../pages/trang_chu.html"; // Chuyển sang trang chủ
-      } else {
-        $("#message").removeClass("hidden").text(res.message);
+    $.ajax({
+      url: "../../php/Users/api_dang_nhap.php",
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+      success: function(res) {
+        console.log("Phản hồi từ server:", res);
+        if(res.status === "success") {
+          localStorage.setItem("username", res.user.username);
+          window.location.href = "../pages/trang_chu.html";
+        } else {
+          $("#message").removeClass("hidden").text(res.message);
+          alert(res.message);
+        }
+      },
+      error: function(xhr) {
+        let msg = "Lỗi đăng nhập!";
+        try {
+          var res = JSON.parse(xhr.responseText);
+          msg = res.message || msg;
+        } catch(e) {}
+        $("#message").removeClass("hidden").text(msg);
+        alert(msg);
       }
-    }, "json");
+    });
   });
   </script>
 </body>
