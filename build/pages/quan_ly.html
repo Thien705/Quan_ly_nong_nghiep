@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Quản lý nông nghiệp</title>
+  <title>Quản lý thông tin</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <!-- Google Fonts -->
@@ -10,62 +10,48 @@
   <style>
     body { font-family: 'Poppins', sans-serif; }
     table thead th {
-      background-color: #16a34a; /* xanh lá đậm */
+      background-color: #16a34a;
       color: white !important;
       text-transform: uppercase;
       font-size: 0.9rem;
       letter-spacing: 0.5px;
     }
     table tbody tr:nth-child(even) {
-      background-color: #f0fdf4; /* xanh lá nhạt */
+      background-color: #f0fdf4;
     }
     table tbody tr:hover {
-      background-color: #dcfce7; /* hover highlight */
+      background-color: #dcfce7;
       transition: 0.2s;
     }
   </style>
 </head>
 <body class="bg-gradient-to-br from-green-100 to-green-50 min-h-screen flex">
-  
   <!-- Sidebar -->
   <aside class="fixed inset-y-0 left-0 flex flex-col w-64 bg-gradient-to-b from-green-600 to-green-400 shadow-xl rounded-r-3xl z-50">
-    <div class="flex items-center gap-3 px-8 py-6">
-      <img src="../assets/img/logo-ct-dark.png" class="h-10" alt="main_logo" />
-      <span class="font-bold text-xl text-white">Quản lý nông nghiệp</span>
+    <div class="flex items-center gap-2 px-6 py-6">
+      <i class="fas fa-seedling text-3xl text-white"></i>
+      <span class="text-xl font-bold text-white">Quản lý nông nghiệp</span>
     </div>
-    <hr class="border-t border-green-300 mx-8 mb-4" />
-    
-    <!-- Menu -->
     <nav class="flex flex-col gap-2 px-4">
-      <a href="trang_chu.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-home text-xl text-green-500"></i>
+      <a href="trang_chu.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-home text-xl"></i>
         <span>Trang chủ</span>
       </a>
-      <a href="bang_thong_tin.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-table text-xl text-yellow-400"></i>
+      <a href="bang_thong_tin.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-table text-xl"></i>
         <span>Bảng thông tin</span>
       </a>
-      <a href="admin_cay_trong.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-seedling text-xl text-emerald-400"></i>
-        <span>Quản lý cây trồng</span>
+      <a href="Quan_ly.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-database text-xl"></i>
+        <span>Quản lý thông tin</span>
       </a>
-      <a href="admin_nong_dan.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-users text-xl text-cyan-400"></i>
-        <span>Quản lý nông dân</span>
+      <div class="mt-6 mb-2 px-4 text-xs text-white uppercase tracking-wide font-semibold">Trang cá nhân</div>
+      <a href="dang_nhap.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-sign-in-alt text-xl"></i>
+        <span>Đăng xuất</span>
       </a>
-      <a href="admin_thua_dat.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-map-marked-alt text-xl text-red-400"></i>
-        <span>Quản lý thửa đất</span>
-      </a>
-
-      <div class="mt-6 mb-2 px-4 text-xs text-gray-500 uppercase tracking-wide font-semibold">Trang cá nhân</div>
-
-      <a href="dang_nhap.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-sign-in-alt text-xl text-orange-400"></i>
-        <span>Đăng nhập</span>
-      </a>
-      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-lg hover:bg-green-100 hover:scale-105">
-        <i class="fas fa-user-plus text-xl text-cyan-400"></i>
+      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-user-plus text-xl"></i>
         <span>Đăng ký</span>
       </a>
     </nav>
@@ -91,7 +77,8 @@
         <input type="text" id="CachCanhTac" placeholder="Cách canh tác" class="border px-3 py-2 rounded w-40">
         <input type="text" id="PhanBon" placeholder="Phân bón" class="border px-3 py-2 rounded w-40">
         <input type="text" id="NguonGoc" placeholder="Nguồn gốc" class="border px-3 py-2 rounded w-40">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm/Sửa</button>
+        <button type="button" id="addCayTrong" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+        <button type="button" id="editCayTrong" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteCayTrong" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
       </form>
     </div>
@@ -103,7 +90,8 @@
         <input type="text" id="MaND" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
         <input type="text" id="HoTen" placeholder="Họ tên" class="border px-3 py-2 rounded w-40" required>
         <input type="text" id="DiaChiND" placeholder="Địa chỉ" class="border px-3 py-2 rounded w-40">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm/Sửa</button>
+        <button type="button" id="addNongDan" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+        <button type="button" id="editNongDan" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteNongDan" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
       </form>
     </div>
@@ -119,7 +107,8 @@
         <input type="text" id="MaC_TD" placeholder="Mã cây" class="border px-3 py-2 rounded w-32" required>
         <input type="date" id="ThoiGianBatDau" class="border px-3 py-2 rounded w-40" placeholder="Bắt đầu">
         <input type="date" id="ThoiGianKetThuc" class="border px-3 py-2 rounded w-40" placeholder="Kết thúc">
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm/Sửa</button>
+        <button type="button" id="addThuaDat" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+        <button type="button" id="editThuaDat" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteThuaDat" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
       </form>
     </div>
@@ -131,43 +120,307 @@
     </div>
   </main>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script>
     // Hiển thị tên đăng nhập nếu có
     const username = localStorage.getItem("username");
     document.getElementById("username-display").textContent = username ? username : "Khách";
 
-    // Xử lý thêm/sửa/xóa cây trồng
-    $('#formCayTrong').on('submit', function(e) {
-      e.preventDefault();
-      // Gửi dữ liệu lên server (AJAX) và sau đó gọi showResultTable('caytrong')
+    // Thêm cây trồng
+    $('#addCayTrong').on('click', function() {
+      const data = {
+        MaC: $('#MaC').val(),
+        TenC: $('#TenC').val(),
+        CachCanhTac: $('#CachCanhTac').val(),
+        PhanBon: $('#PhanBon').val(),
+        NguonGoc: $('#NguonGoc').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_insert_cay_trong.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
+          showResultTable('caytrong');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
+
+    // Sửa cây trồng
+    $('#editCayTrong').on('click', function() {
+      const data = {
+        MaC: $('#MaC').val(),
+        TenC: $('#TenC').val(),
+        CachCanhTac: $('#CachCanhTac').val(),
+        PhanBon: $('#PhanBon').val(),
+        NguonGoc: $('#NguonGoc').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_update_cay_trong.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!");
+          showResultTable('caytrong');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Xóa cây trồng
     $('#deleteCayTrong').on('click', function() {
-      // Xóa cây trồng (AJAX) và sau đó gọi showResultTable('caytrong')
+      const MaC = $('#MaC').val();
+      if (!MaC) return alert("Nhập mã cây cần xóa!");
+      $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_remove_cay_trong.php",
+        type: "POST",
+        data: { MaC },
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          showResultTable('caytrong');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
 
-    // Xử lý thêm/sửa/xóa nông dân
-    $('#formNongDan').on('submit', function(e) {
-      e.preventDefault();
-      // Gửi dữ liệu lên server (AJAX) và sau đó gọi showResultTable('nongdan')
+    // Thêm nông dân
+    $('#addNongDan').on('click', function() {
+      const data = {
+        MaND: $('#MaND').val(),
+        HoTen: $('#HoTen').val(),
+        DiaChi: $('#DiaChiND').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_insert_nong_dan.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
+          showResultTable('nongdan');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
+
+    // Sửa nông dân
+    $('#editNongDan').on('click', function() {
+      const data = {
+        MaND: $('#MaND').val(),
+        HoTen: $('#HoTen').val(),
+        DiaChi: $('#DiaChiND').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_update_nong_dan.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!");
+          showResultTable('nongdan');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Xóa nông dân
     $('#deleteNongDan').on('click', function() {
-      // Xóa nông dân (AJAX) và sau đó gọi showResultTable('nongdan')
+      const MaND = $('#MaND').val();
+      if (!MaND) return alert("Nhập mã nông dân cần xóa!");
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_remove_nong_dan.php",
+        type: "POST",
+        data: { MaND },
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          showResultTable('nongdan');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
 
-    // Xử lý thêm/sửa/xóa thửa đất
-    $('#formThuaDat').on('submit', function(e) {
-      e.preventDefault();
-      // Gửi dữ liệu lên server (AJAX) và sau đó gọi showResultTable('thuadat')
+    // Thêm thửa đất
+    $('#addThuaDat').on('click', function() {
+      const data = {
+        MaTD: $('#MaTD').val(),
+        TenTD: $('#TenTD').val(),
+        MaND: $('#MaND_TD').val(),
+        DiaChi: $('#DiaChiTD').val(),
+        MaC: $('#MaC_TD').val(),
+        ThoiGianBatDau: $('#ThoiGianBatDau').val(),
+        ThoiGianKetThuc: $('#ThoiGianKetThuc').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Thua_Dat/api_insert_thua_dat.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
+          showResultTable('thuadat');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
+
+    // Sửa thửa đất
+    $('#editThuaDat').on('click', function() {
+      const data = {
+        MaTD: $('#MaTD').val(),
+        TenTD: $('#TenTD').val(),
+        MaND: $('#MaND_TD').val(),
+        DiaChi: $('#DiaChiTD').val(),
+        MaC: $('#MaC_TD').val(),
+        ThoiGianBatDau: $('#ThoiGianBatDau').val(),
+        ThoiGianKetThuc: $('#ThoiGianKetThuc').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Thua_Dat/api_update_thua_dat.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!");
+          showResultTable('thuadat');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Xóa thửa đất
     $('#deleteThuaDat').on('click', function() {
-      // Xóa thửa đất (AJAX) và sau đó gọi showResultTable('thuadat')
+      const MaTD = $('#MaTD').val();
+      if (!MaTD) return alert("Nhập mã thửa đất cần xóa!");
+      $.ajax({
+        url: "http://localhost/qlvt/php/Thua_Dat/api_remove_thua_dat.php",
+        type: "POST",
+        data: { MaTD },
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          showResultTable('thuadat');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
     });
 
-    // Hàm hiển thị bảng kết quả sau thao tác
+    // Hiển thị bảng kết quả sau thao tác
     function showResultTable(type) {
-      // Gọi AJAX lấy dữ liệu mới nhất và render vào #resultTable
-      // Ví dụ: nếu type === 'caytrong' thì render bảng cây trồng, ...
+      let url = "";
+      if (type === 'caytrong') url = "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php";
+      else if (type === 'nongdan') url = "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php";
+      else if (type === 'thuadat') url = "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php";
+      else return;
+
+      $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          renderTable(res, type);
+        },
+        error: function() {
+          alert("Lỗi khi lấy dữ liệu!");
+        }
+      });
     }
+
+    // Hàm render bảng kết quả
+    function renderTable(data, type) {
+      let s = '';
+      let stt = 1;
+      if (!Array.isArray(data)) data = [];
+      if (type === 'caytrong') {
+        s += `<table class="w-full text-sm text-gray-700"><thead><tr>
+          <th class="px-6 py-3">STT</th>
+          <th class="px-6 py-3">Mã cây</th>
+          <th class="px-6 py-3">Tên cây</th>
+          <th class="px-6 py-3">Cách canh tác</th>
+          <th class="px-6 py-3">Phân bón</th>
+          <th class="px-6 py-3">Nguồn gốc</th>
+        </tr></thead><tbody>`;
+        data.forEach(item => {
+          s += `<tr>
+            <td class="px-6 py-3">${stt++}</td>
+            <td class="px-6 py-3">${item.MaC}</td>
+            <td class="px-6 py-3">${item.TenC}</td>
+            <td class="px-6 py-3">${item.CachCanhTac || ""}</td>
+            <td class="px-6 py-3">${item.PhanBon || ""}</td>
+            <td class="px-6 py-3">${item.NguonGoc || ""}</td>
+          </tr>`;
+        });
+        s += '</tbody></table>';
+      } else if (type === 'nongdan') {
+        s += `<table class="w-full text-sm text-gray-700"><thead><tr>
+          <th class="px-6 py-3">STT</th>
+          <th class="px-6 py-3">Mã ND</th>
+          <th class="px-6 py-3">Họ tên</th>
+          <th class="px-6 py-3">Địa chỉ</th>
+        </tr></thead><tbody>`;
+        data.forEach(item => {
+          s += `<tr>
+            <td class="px-6 py-3">${stt++}</td>
+            <td class="px-6 py-3">${item.MaND}</td>
+            <td class="px-6 py-3">${item.HoTen}</td>
+            <td class="px-6 py-3">${item.DiaChi}</td>
+          </tr>`;
+        });
+        s += '</tbody></table>';
+      } else if (type === 'thuadat') {
+        s += `<table class="w-full text-sm text-gray-700"><thead><tr>
+          <th class="px-6 py-3">STT</th>
+          <th class="px-6 py-3">Mã thửa đất</th>
+          <th class="px-6 py-3">Tên thửa đất</th>
+          <th class="px-6 py-3">Mã ND</th>
+          <th class="px-6 py-3">Địa chỉ</th>
+          <th class="px-6 py-3">Mã cây</th>
+          <th class="px-6 py-3">Bắt đầu</th>
+          <th class="px-6 py-3">Kết thúc</th>
+        </tr></thead><tbody>`;
+        data.forEach(item => {
+          s += `<tr>
+            <td class="px-6 py-3">${stt++}</td>
+            <td class="px-6 py-3">${item.MaTD}</td>
+            <td class="px-6 py-3">${item.TenTD || ""}</td>
+            <td class="px-6 py-3">${item.MaND}</td>
+            <td class="px-6 py-3">${item.DiaChi}</td>
+            <td class="px-6 py-3">${item.MaC}</td>
+            <td class="px-6 py-3">${item.ThoiGianBatDau || ""}</td>
+            <td class="px-6 py-3">${item.ThoiGianKetThuc || ""}</td>
+          </tr>`;
+        });
+        s += '</tbody></table>';
+      }
+      $('#resultTable').html(s);
+    }
+
+    // Hiển thị mặc định bảng thửa đất khi vào trang
+    $(document).ready(function() {
+      showResultTable('thuadat');
+    });
   </script>
 </body>
 </html>
