@@ -77,9 +77,12 @@
         <input type="text" id="CachCanhTac" placeholder="Cách canh tác" class="border px-3 py-2 rounded w-40">
         <input type="text" id="PhanBon" placeholder="Phân bón" class="border px-3 py-2 rounded w-40">
         <input type="text" id="NguonGoc" placeholder="Nguồn gốc" class="border px-3 py-2 rounded w-40">
-        <button type="button" id="addCayTrong" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
-        <button type="button" id="editCayTrong" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
-        <button type="button" id="deleteCayTrong" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+        <div class="w-full flex gap-4 mt-4">
+          <button type="button" id="addCayTrong" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+          <button type="button" id="editCayTrong" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
+          <button type="button" id="deleteCayTrong" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+          <button type="button" id="resetCayTrong" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
+        </div>
       </form>
     </div>
 
@@ -93,6 +96,7 @@
         <button type="button" id="addNongDan" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
         <button type="button" id="editNongDan" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteNongDan" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+        <button type="button" id="resetNongDan" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
       </form>
     </div>
 
@@ -102,20 +106,30 @@
       <form id="formThuaDat" class="flex flex-wrap gap-4 items-end">
         <input type="text" id="MaTD" placeholder="Mã thửa đất" class="border px-3 py-2 rounded w-32" required>
         <input type="text" id="TenTD" placeholder="Tên thửa đất" class="border px-3 py-2 rounded w-40" required>
-        <input type="text" id="MaND_TD" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
+        <!-- Mã ND: chọn hoặc nhập, có gợi ý -->
+        <input list="listMaND" id="MaND_TD" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
+        <datalist id="listMaND"></datalist>
         <input type="text" id="DiaChiTD" placeholder="Địa chỉ" class="border px-3 py-2 rounded w-40">
-        <input type="text" id="MaC_TD" placeholder="Mã cây" class="border px-3 py-2 rounded w-32" required>
+        <!-- Mã cây: chọn hoặc nhập, có gợi ý -->
+        <input list="listMaC" id="MaC_TD" placeholder="Mã cây" class="border px-3 py-2 rounded w-32" required>
+        <datalist id="listMaC"></datalist>
         <input type="date" id="ThoiGianBatDau" class="border px-3 py-2 rounded w-40" placeholder="Bắt đầu">
         <input type="date" id="ThoiGianKetThuc" class="border px-3 py-2 rounded w-40" placeholder="Kết thúc">
         <button type="button" id="addThuaDat" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
         <button type="button" id="editThuaDat" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteThuaDat" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+        <button type="button" id="resetThuaDat" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
       </form>
     </div>
 
     <!-- Bảng hiển thị kết quả sau thao tác -->
     <div class="bg-white rounded-xl shadow p-6">
-      <h2 class="font-semibold text-lg text-green-700 mb-4">📋 Kết quả thao tác</h2>
+      <div class="flex gap-4 mb-4">
+        <button type="button" id="showCayTrong" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Cây trồng</button>
+        <button type="button" id="showNongDan" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Nông dân</button>
+        <button type="button" id="showThuaDat" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Thửa đất</button>
+      </div>
+      <h2 class="font-semibold text-lg text-green-700 mb-4" id="resultTitle">📋 Kết quả thao tác</h2>
       <div id="resultTable"></div>
     </div>
   </main>
@@ -184,7 +198,7 @@
         data: { MaC },
         dataType: "json",
         success: function(res) {
-          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          alert(res.success ? "Xóa thành công!" : "Xóa thất bại!");
           showResultTable('caytrong');
         },
         error: function() {
@@ -329,6 +343,7 @@
 
     // Hiển thị bảng kết quả sau thao tác
     function showResultTable(type) {
+      setResultTitle(type);
       let url = "";
       if (type === 'caytrong') url = "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php";
       else if (type === 'nongdan') url = "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php";
@@ -346,6 +361,15 @@
           alert("Lỗi khi lấy dữ liệu!");
         }
       });
+    }
+
+    // Hiện tiêu đề bảng kết quả theo loại
+    function setResultTitle(type) {
+      let title = "📋 Kết quả thao tác";
+      if (type === 'caytrong') title = "🌱 Bảng cây trồng";
+      else if (type === 'nongdan') title = "👩‍🌾 Bảng nông dân";
+      else if (type === 'thuadat') title = "📍 Bảng thửa đất";
+      $('#resultTitle').text(title);
     }
 
     // Hàm render bảng kết quả
@@ -417,8 +441,69 @@
       $('#resultTable').html(s);
     }
 
+    // Lấy danh sách nông dân và cây trồng để đổ vào datalist (gợi ý nhập)
+    function loadSelectOptions() {
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let ndOptions = '';
+          res.forEach(nd => {
+            ndOptions += `<option value="${nd.MaND}">${nd.MaND} - ${nd.HoTen}</option>`;
+          });
+          $('#listMaND').html(ndOptions);
+        }
+      });
+      $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let cayOptions = '';
+          res.forEach(c => {
+            cayOptions += `<option value="${c.MaC}">${c.MaC} - ${c.TenC}</option>`;
+          });
+          $('#listMaC').html(cayOptions);
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      loadSelectOptions();
+      showResultTable('thuadat');
+    });
+
     // Hiển thị mặc định bảng thửa đất khi vào trang
     $(document).ready(function() {
+      showResultTable('thuadat');
+    });
+
+    // Reset form cây trồng
+    $('#resetCayTrong').on('click', function() {
+      $('#formCayTrong')[0].reset();
+    });
+
+    // Reset form nông dân
+    $('#resetNongDan').on('click', function() {
+      $('#formNongDan')[0].reset();
+    });
+
+    // Reset form thửa đất
+    $('#resetThuaDat').on('click', function() {
+      $('#formThuaDat')[0].reset();
+      // Nếu muốn giữ lại các option select thì gọi lại loadSelectOptions()
+      loadSelectOptions();
+    });
+
+    // Nút chuyển bảng kết quả
+    $('#showCayTrong').on('click', function() {
+      showResultTable('caytrong');
+    });
+    $('#showNongDan').on('click', function() {
+      showResultTable('nongdan');
+    });
+    $('#showThuaDat').on('click', function() {
       showResultTable('thuadat');
     });
   </script>
