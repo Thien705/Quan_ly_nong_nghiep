@@ -10,54 +10,48 @@
   <style>
     body { font-family: 'Poppins', sans-serif; }
     table thead th {
-      background-color: #16a34a; /* xanh lá đậm */
+      background-color: #16a34a;
       color: white !important;
       text-transform: uppercase;
       font-size: 0.9rem;
       letter-spacing: 0.5px;
     }
     table tbody tr:nth-child(even) {
-      background-color: #f0fdf4; /* xanh lá nhạt */
+      background-color: #f0fdf4;
     }
     table tbody tr:hover {
-      background-color: #dcfce7; /* hover highlight */
+      background-color: #dcfce7;
       transition: 0.2s;
     }
   </style>
 </head>
 <body class="bg-gradient-to-br from-green-100 to-green-50 min-h-screen flex">
-  
   <!-- Sidebar -->
-  <aside class="fixed inset-y-0 left-0 flex flex-col w-64 bg-gradient-to-b from-green-600 to-green-400 shadow-xl rounded-r-3xl z-50" style="font-family: 'Poppins', sans-serif;">
-    <div class="flex items-center gap-3 px-8 py-6">
-      <img src="../assets/img/logo-ct-dark.png" class="h-10" alt="main_logo" />
-      <span class="font-bold text-xl text-white">Quản lý nông nghiệp</span>
+  <aside class="fixed inset-y-0 left-0 flex flex-col w-64 bg-gradient-to-b from-green-600 to-green-400 shadow-xl rounded-r-3xl z-50">
+    <div class="flex items-center gap-2 px-6 py-6">
+      <i class="fas fa-seedling text-3xl text-white"></i>
+      <span class="text-xl font-bold text-white">Quản lý nông nghiệp</span>
     </div>
-    <hr class="border-t border-green-300 mx-8 mb-4" />
-    
-    <!-- Menu -->
     <nav class="flex flex-col gap-2 px-4">
-      <a href="trang_chu.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-100 hover:text-green-700 hover:scale-105">
-        <i class="fas fa-home text-xl text-green-500"></i>
+      <a href="trang_chu.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-home text-xl"></i>
         <span>Trang chủ</span>
       </a>
-      <a href="bang_thong_tin.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-100 hover:text-green-700 hover:scale-105">
-        <i class="fas fa-table text-xl text-yellow-400"></i>
+      <a href="bang_thong_tin.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-table text-xl"></i>
         <span>Bảng thông tin</span>
       </a>
-      <a href="Quan_ly.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-100 hover:text-green-700 hover:scale-105">
-        <i class="fas fa-database text-xl text-blue-500"></i>
+      <a href="Quan_ly.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-database text-xl"></i>
         <span>Quản lý thông tin</span>
       </a>
-
-      <div class="mt-6 mb-2 px-4 text-xs text-gray-500 uppercase tracking-wide font-semibold">Trang cá nhân</div>
-
-      <a href="dang_nhap.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-100 hover:text-green-700 hover:scale-105">
-        <i class="fas fa-sign-in-alt text-xl text-orange-400"></i>
-        <span>Đăng nhập</span>
+      <div class="mt-6 mb-2 px-4 text-xs text-white uppercase tracking-wide font-semibold">Trang cá nhân</div>
+      <a href="dang_nhap.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-sign-in-alt text-xl"></i>
+        <span>Đăng xuất</span>
       </a>
-      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/90 text-gray-700 font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-100 hover:text-green-700 hover:scale-105">
-        <i class="fas fa-user-plus text-xl text-cyan-400"></i>
+      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
+        <i class="fas fa-user-plus text-xl"></i>
         <span>Đăng ký</span>
       </a>
     </nav>
@@ -86,9 +80,12 @@
     </div>
 
     <!-- Bảng cây trồng -->
-    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">  
-      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden mb-8">  
+      <div class="flex justify-between items-center p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">🌱 Danh sách các cây trồng</h6>
+        <button id="exportCayTrong" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">
+          <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+        </button>
       </div>
       <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
@@ -108,9 +105,12 @@
     </div>
 
     <!-- Bảng nông dân -->
-    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden mb-8">
+      <div class="flex justify-between items-center p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">👩‍🌾 Danh sách nông dân</h6>
+        <button id="exportNongDan" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">
+          <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+        </button>
       </div>
       <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
@@ -128,9 +128,12 @@
     </div>
 
     <!-- Bảng thửa đất -->
-    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6 border-b bg-green-50 sticky top-0 z-10">
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden mb-8">
+      <div class="flex justify-between items-center p-6 border-b bg-green-50 sticky top-0 z-10">
         <h6 class="font-semibold text-lg text-green-700">📍 Danh sách các thửa đất</h6>
+        <button id="exportThuaDat" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">
+          <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+        </button>
       </div>
       <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
         <table class="w-full text-sm text-gray-700">
@@ -150,10 +153,18 @@
         </table>
       </div>
     </div>
+
+    <div class="flex justify-end mb-8">
+      <button id="exportAllExcel" class="bg-blue-600 text-white px-5 py-2 rounded font-semibold hover:bg-blue-700">
+        <i class="fas fa-file-excel mr-2"></i>Xuất tất cả Excel
+      </button>
+    </div>
   </main>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Thêm thư viện SheetJS -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <script>
   let listNongDan = [];
@@ -330,6 +341,53 @@ function showThuaDat(){
     document.getElementById("username-display").textContent = "Khách";
     document.getElementById("welcome-title").textContent = "Xin chào Khách";
   }
+
+  // Hàm xuất bảng ra Excel
+  function exportTableToExcel(tbodySelector, filename) {
+    var tbody = document.querySelector(tbodySelector);
+    if (!tbody) return;
+    var table = tbody.closest('table');
+    var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+    XLSX.writeFile(wb, filename);
+  }
+
+  // Sự kiện nút xuất Excel
+  $('#exportCayTrong').on('click', function() {
+    exportTableToExcel('.addListCayTrong', 'CayTrong.xlsx');
+  });
+  $('#exportNongDan').on('click', function() {
+    exportTableToExcel('.addListNongDan', 'NongDan.xlsx');
+  });
+  $('#exportThuaDat').on('click', function() {
+    exportTableToExcel('.addListThuaDat', 'ThuaDat.xlsx');
+  });
+
+  // Hàm xuất tất cả bảng ra 1 file Excel (nhiều sheet)
+  function exportAllTablesToExcel() {
+    var wb = XLSX.utils.book_new();
+
+    // Cây trồng
+    var tableCayTrong = document.querySelector('.addListCayTrong').closest('table');
+    var wsCayTrong = XLSX.utils.table_to_sheet(tableCayTrong);
+    XLSX.utils.book_append_sheet(wb, wsCayTrong, "Cây trồng");
+
+    // Nông dân
+    var tableNongDan = document.querySelector('.addListNongDan').closest('table');
+    var wsNongDan = XLSX.utils.table_to_sheet(tableNongDan);
+    XLSX.utils.book_append_sheet(wb, wsNongDan, "Nông dân");
+
+    // Thửa đất
+    var tableThuaDat = document.querySelector('.addListThuaDat').closest('table');
+    var wsThuaDat = XLSX.utils.table_to_sheet(tableThuaDat);
+    XLSX.utils.book_append_sheet(wb, wsThuaDat, "Thửa đất");
+
+    XLSX.writeFile(wb, "BangThongTin.xlsx");
+  }
+
+  // Sự kiện nút xuất tất cả Excel
+  $('#exportAllExcel').on('click', function() {
+    exportAllTablesToExcel();
+  });
   </script>
 </body>
 </html>
