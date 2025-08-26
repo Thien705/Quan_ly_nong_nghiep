@@ -149,35 +149,54 @@
   <!-- main script file  -->
   <script src="../assets/js/argon-dashboard-tailwind.js?v=1.0.1" async></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script>
-  $("#loginForm").submit(function(e) {
+ <script>
+  // Đường dẫn cố định theo cấu trúc của bạn
+  const BASE  = '/qlvt/build/';
+  const PAGES = BASE + 'pages/';
+
+  $("#loginForm").on("submit", function (e) {
     e.preventDefault();
+
+    const $btn = $(this).find('[type="submit"]');
+    $btn.prop('disabled', true);
+
     $.ajax({
-      url: "../../php/Users/api_dang_nhap.php",
+      url: "../../php/Users/api_dang_nhap.php",   // /qlvt/php/Users/api_dang_nhap.php
       type: "POST",
       data: $(this).serialize(),
-      dataType: "json",
-      success: function(res) {
-        console.log("Phản hồi từ server:", res);
-        if(res.status === "success") {
-          localStorage.setItem("username", res.user.username);
-          window.location.href = "../pages/trang_chu.html";
-        } else {
-          $("#message").removeClass("hidden").text(res.message);
-          alert(res.message);
-        }
-      },
-      error: function(xhr) {
-        let msg = "Lỗi đăng nhập!";
-        try {
-          var res = JSON.parse(xhr.responseText);
-          msg = res.message || msg;
-        } catch(e) {}
+      dataType: "json"
+    })
+    .done(function (res) {
+      console.log("Phản hồi từ server:", res);
+
+      const ok = res?.status === "success" || res?.status === true;
+      if (ok) {
+        const username = (res?.user?.username ?? res?.user?.name) ?? $("#username").val().trim();
+        const role     = (res?.user?.role || res?.role || "user").toLowerCase();
+        if (res?.token) localStorage.setItem("token", res.token);
+        localStorage.setItem("username", username);
+        localStorage.setItem("role", role);
+
+        const dest = role === "admin" ? (PAGES + "admin_thua_dat.html")
+                                      : (PAGES + "trang_chu.html");
+        window.location.replace(dest);
+      } else {
+        const msg = res?.message || "Đăng nhập không thành công!";
         $("#message").removeClass("hidden").text(msg);
-        alert(msg);
       }
+    })
+    .fail(function (xhr) {
+      let msg = "Lỗi đăng nhập!";
+      try {
+        const r = JSON.parse(xhr.responseText);
+        msg = r?.message || msg;
+      } catch (e) {}
+      $("#message").removeClass("hidden").text(msg);
+    })
+    .always(function () {
+      $btn.prop('disabled', false);
     });
   });
-  </script>
+</script>
 </body>
 </html>
