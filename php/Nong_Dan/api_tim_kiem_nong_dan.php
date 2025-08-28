@@ -13,10 +13,10 @@ $keyword = $_POST['keyword'] ?? '';
 // Nếu có từ khóa thì tìm kiếm
 if (!empty($keyword)) {
     try {
-        // Câu lệnh SQL: tìm trong MaND, HoTen, DiaChi
-        $sql = "SELECT MaND, HoTen, DiaChi 
+        // Câu lệnh SQL: tìm trong MaND, HoTen, CuTru
+        $sql = "SELECT MaND, HoTen, CuTru 
                 FROM nongdan 
-                WHERE MaND LIKE ? OR HoTen LIKE ? OR DiaChi LIKE ?";
+                WHERE MaND LIKE ? OR HoTen LIKE ? OR CuTru LIKE ?";
 
         $stmt = $conn->prepare($sql);
         $like = "%" . $keyword . "%";

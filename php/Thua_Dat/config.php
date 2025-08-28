@@ -1,9 +1,8 @@
-
 <?php
 $servername = "localhost";  // hoặc IP hoặc tên host MySQL
-$username = "root";         // username mặc định thường là root
-$password = "";             // mật khẩu, để trống nếu bạn chưa đặt
-$dbname = "qlvt";       // tên database bạn muốn kết nối
+$username = "root";          // username
+$password = "";              // mật khẩu, để trống nếu chưa đặt
+$dbname = "qlvt";            // tên database
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);

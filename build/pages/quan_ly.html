@@ -46,15 +46,6 @@
         <i class="fas fa-database text-xl"></i>
         <span>Quản lý thông tin</span>
       </a>
-      <div class="mt-6 mb-2 px-4 text-xs text-white uppercase tracking-wide font-semibold">Trang cá nhân</div>
-      <a href="#" data-logout class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
-        <i class="fas fa-sign-in-alt text-xl"></i>
-        <span>Đăng xuất</span>
-      </a>
-      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
-        <i class="fas fa-user-plus text-xl"></i>
-        <span>Đăng ký</span>
-      </a>
     </nav>
   </aside>
 
@@ -93,7 +84,7 @@
       <form id="formNongDan" class="flex flex-wrap gap-4 items-end">
         <input type="text" id="MaND" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
         <input type="text" id="HoTen" placeholder="Họ tên" class="border px-3 py-2 rounded w-40" required>
-        <input type="text" id="DiaChiND" placeholder="Địa chỉ" class="border px-3 py-2 rounded w-40">
+        <input type="text" id="CuTruND" placeholder="Cư trú" class="border px-3 py-2 rounded w-40">
         <button type="button" id="addNongDan" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
         <button type="button" id="editNongDan" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
         <button type="button" id="deleteNongDan" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
@@ -105,21 +96,39 @@
     <div class="bg-white rounded-xl shadow p-6 mb-6">
       <h2 class="font-semibold text-lg text-green-700 mb-4">📍 Quản lý thửa đất</h2>
       <form id="formThuaDat" class="flex flex-wrap gap-4 items-end">
-        <input type="text" id="MaTD" placeholder="Mã thửa đất" class="border px-3 py-2 rounded w-32" required>
-        <input type="text" id="TenTD" placeholder="Tên thửa đất" class="border px-3 py-2 rounded w-40" required>
+        <input type="text" id="MaTD" placeholder="Mã TĐ " class="border px-3 py-2 rounded w-32" required>
         <!-- Mã ND: chọn hoặc nhập, có gợi ý -->
         <input list="listMaND" id="MaND_TD" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
         <datalist id="listMaND"></datalist>
         <input type="text" id="DiaChiTD" placeholder="Địa chỉ" class="border px-3 py-2 rounded w-40">
-        <!-- Mã cây: chọn hoặc nhập, có gợi ý -->
-        <input list="listMaC" id="MaC_TD" placeholder="Mã cây" class="border px-3 py-2 rounded w-32" required>
-        <datalist id="listMaC"></datalist>
-        <input type="date" id="ThoiGianBatDau" class="border px-3 py-2 rounded w-40" placeholder="Bắt đầu">
-        <input type="date" id="ThoiGianKetThuc" class="border px-3 py-2 rounded w-40" placeholder="Kết thúc">
-        <button type="button" id="addThuaDat" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
-        <button type="button" id="editThuaDat" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
-        <button type="button" id="deleteThuaDat" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
-        <button type="button" id="resetThuaDat" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
+        <div class="w-full flex gap-4 mt-4">
+          <button type="button" id="addThuaDat" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+          <button type="button" id="editThuaDat" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
+          <button type="button" id="deleteThuaDat" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+          <button type="button" id="resetThuaDat" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Form quản lý vụ trồng -->
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+      <h2 class="font-semibold text-lg text-green-700 mb-4">🌾 Quản lý vụ trồng</h2>
+      <form id="formVuTrong" class="flex flex-wrap gap-4 items-end">
+        <!-- Mã ND: nhập hoặc chọn gợi ý -->
+        <input list="listMaND_VT" id="MaND_VT" placeholder="Mã ND" class="border px-3 py-2 rounded w-32" required>
+        <datalist id="listMaND_VT"></datalist>
+        <!-- Mã thửa đất: nhập hoặc chọn gợi ý -->
+        <input list="listMaTD_VT" id="MaTD_VT" placeholder="Mã TĐ" class="border px-3 py-2 rounded w-32" required>
+        <datalist id="listMaTD_VT"></datalist>
+        <!-- Mã cây: nhập hoặc chọn gợi ý -->
+        <input list="listMaC_VT" id="MaC_VT" placeholder="Mã cây" class="border px-3 py-2 rounded w-32" required>
+        <datalist id="listMaC_VT"></datalist>
+        <input type="date" id="ThoiGianBatDau_VT" class="border px-3 py-2 rounded w-40" placeholder="Bắt đầu">
+        <input type="date" id="ThoiGianKetThuc_VT" class="border px-3 py-2 rounded w-40" placeholder="Kết thúc">
+        <button type="button" id="addVuTrong" class="bg-green-600 text-white px-4 py-2 rounded font-semibold">Thêm</button>
+        <button type="button" id="editVuTrong" class="bg-yellow-500 text-white px-4 py-2 rounded font-semibold">Sửa</button>
+        <button type="button" id="deleteVuTrong" class="bg-red-500 text-white px-4 py-2 rounded font-semibold">Xóa</button>
+        <button type="button" id="resetVuTrong" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold">Reset</button>
       </form>
     </div>
 
@@ -129,6 +138,7 @@
         <button type="button" id="showCayTrong" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Cây trồng</button>
         <button type="button" id="showNongDan" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Nông dân</button>
         <button type="button" id="showThuaDat" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Thửa đất</button>
+        <button type="button" id="showVuTrong" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">Vụ trồng</button>
       </div>
       <h2 class="font-semibold text-lg text-green-700 mb-4" id="resultTitle">📋 Kết quả thao tác</h2>
       <div id="resultTable"></div>
@@ -180,7 +190,7 @@
         data: data,
         dataType: "json",
         success: function(res) {
-          alert(res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!");
+          alert(res.message || (res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!"));
           showResultTable('caytrong');
         },
         error: function() {
@@ -213,7 +223,7 @@
       const data = {
         MaND: $('#MaND').val(),
         HoTen: $('#HoTen').val(),
-        DiaChi: $('#DiaChiND').val()
+        CuTru: $('#CuTruND').val()
       };
       $.ajax({
         url: "http://localhost/qlvt/php/Nong_Dan/api_insert_nong_dan.php",
@@ -223,6 +233,7 @@
         success: function(res) {
           alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
           showResultTable('nongdan');
+          loadSelectOptions(); // Tự động cập nhật lại datalist mã nông dân cho form thửa đất
         },
         error: function() {
           alert("Lỗi khi gửi yêu cầu đến server!");
@@ -235,7 +246,7 @@
       const data = {
         MaND: $('#MaND').val(),
         HoTen: $('#HoTen').val(),
-        DiaChi: $('#DiaChiND').val()
+        CuTru: $('#CuTruND').val()
       };
       $.ajax({
         url: "http://localhost/qlvt/php/Nong_Dan/api_update_nong_dan.php",
@@ -264,6 +275,7 @@
         success: function(res) {
           alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
           showResultTable('nongdan');
+          loadSelectOptions(); // Tự động cập nhật lại datalist mã nông dân cho form thửa đất sau khi xóa
         },
         error: function() {
           alert("Lỗi khi gửi yêu cầu đến server!");
@@ -275,12 +287,8 @@
     $('#addThuaDat').on('click', function() {
       const data = {
         MaTD: $('#MaTD').val(),
-        TenTD: $('#TenTD').val(),
         MaND: $('#MaND_TD').val(),
-        DiaChi: $('#DiaChiTD').val(),
-        MaC: $('#MaC_TD').val(),
-        ThoiGianBatDau: $('#ThoiGianBatDau').val(),
-        ThoiGianKetThuc: $('#ThoiGianKetThuc').val()
+        DiaChi: $('#DiaChiTD').val()
       };
       $.ajax({
         url: "http://localhost/qlvt/php/Thua_Dat/api_insert_thua_dat.php",
@@ -288,7 +296,7 @@
         data: data,
         dataType: "json",
         success: function(res) {
-          alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
+          alert(res.success ? "Thêm thành công!" : (res.message || "Thêm thất bại!"));
           showResultTable('thuadat');
         },
         error: function() {
@@ -301,12 +309,8 @@
     $('#editThuaDat').on('click', function() {
       const data = {
         MaTD: $('#MaTD').val(),
-        TenTD: $('#TenTD').val(),
         MaND: $('#MaND_TD').val(),
-        DiaChi: $('#DiaChiTD').val(),
-        MaC: $('#MaC_TD').val(),
-        ThoiGianBatDau: $('#ThoiGianBatDau').val(),
-        ThoiGianKetThuc: $('#ThoiGianKetThuc').val()
+        DiaChi: $('#DiaChiTD').val()
       };
       $.ajax({
         url: "http://localhost/qlvt/php/Thua_Dat/api_update_thua_dat.php",
@@ -314,7 +318,12 @@
         data: data,
         dataType: "json",
         success: function(res) {
-          alert(res.status === "success" ? "Sửa thành công!" : "Sửa thất bại!");
+          // Sửa lại kiểm tra kết quả trả về
+          if (res.success === true || res.success === "true") {
+            alert(res.message || "Sửa thành công!");
+          } else {
+            alert(res.message || "Sửa thất bại!");
+          }
           showResultTable('thuadat');
         },
         error: function() {
@@ -333,8 +342,97 @@
         data: { MaTD },
         dataType: "json",
         success: function(res) {
-          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          // Sửa lại kiểm tra kết quả trả về
+          if (res.success === true) {
+            alert(res.message || "Xóa thành công!");
+          } else {
+            alert(res.message || "Xóa thất bại!");
+          }
           showResultTable('thuadat');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Thêm vụ trồng
+    $('#addVuTrong').on('click', function() {
+      const data = {
+        MaND: $('#MaND_VT').val(),
+        MaTD: $('#MaTD_VT').val(),
+        MaC: $('#MaC_VT').val(),
+        ThoiGianBatDau: $('#ThoiGianBatDau_VT').val(),
+        ThoiGianKetThuc: $('#ThoiGianKetThuc_VT').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Vu_Trong/api_add_trong.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Thêm thành công!" : "Thêm thất bại!");
+          showResultTable('vutrong');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Sửa vụ trồng
+    $('#editVuTrong').on('click', function() {
+      const oldMaND = $('#MaND_VT').data('old-value');
+      const oldMaTD = $('#MaTD_VT').data('old-value');
+      const oldMaC = $('#MaC_VT').data('old-value');
+      const oldBatDau = $('#ThoiGianBatDau_VT').data('old-value');
+      const oldKetThuc = $('#ThoiGianKetThuc_VT').data('old-value');
+
+      const data = {
+        MaND: $('#MaND_VT').val(),
+        MaTD: $('#MaTD_VT').val(),
+        MaC: $('#MaC_VT').val(),
+        ThoiGianBatDau: $('#ThoiGianBatDau_VT').val(),
+        ThoiGianKetThuc: $('#ThoiGianKetThuc_VT').val(),
+        OldMaND: oldMaND,
+        OldMaTD: oldMaTD,
+        OldMaC: oldMaC,
+        OldBatDau: oldBatDau,
+        OldKetThuc: oldKetThuc
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Vu_Trong/api_update_trong.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Sửa vụ trồng thành công!" : "Sửa vụ trồng thất bại!");
+          showResultTable('vutrong');
+        },
+        error: function() {
+          alert("Lỗi khi gửi yêu cầu đến server!");
+        }
+      });
+    });
+
+    // Xóa vụ trồng
+    $('#deleteVuTrong').on('click', function() {
+      const data = {
+        MaND: $('#MaND_VT').val(),
+        MaTD: $('#MaTD_VT').val(),
+        MaC: $('#MaC_VT').val(),
+        ThoiGianBatDau: $('#ThoiGianBatDau_VT').val(),
+        ThoiGianKetThuc: $('#ThoiGianKetThuc_VT').val()
+      };
+      $.ajax({
+        url: "http://localhost/qlvt/php/Vu_Trong/api_remove_trong.php",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(res) {
+          alert(res.status === "success" ? "Xóa thành công!" : "Xóa thất bại!");
+          showResultTable('vutrong');
+          loadVuTrongOptions();
         },
         error: function() {
           alert("Lỗi khi gửi yêu cầu đến server!");
@@ -349,6 +447,7 @@
       if (type === 'caytrong') url = "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php";
       else if (type === 'nongdan') url = "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php";
       else if (type === 'thuadat') url = "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php";
+      else if (type === 'vutrong') url = "http://localhost/qlvt/php/Vu_Trong/api_get_trong.php";
       else return;
 
       $.ajax({
@@ -356,7 +455,11 @@
         type: "POST",
         dataType: "json",
         success: function(res) {
-          renderTable(res, type);
+          if (res.data) {
+            renderTable(res.data, type);
+          } else {
+            renderTable(res, type);
+          }
         },
         error: function() {
           alert("Lỗi khi lấy dữ liệu!");
@@ -370,6 +473,7 @@
       if (type === 'caytrong') title = "🌱 Bảng cây trồng";
       else if (type === 'nongdan') title = "👩‍🌾 Bảng nông dân";
       else if (type === 'thuadat') title = "📍 Bảng thửa đất";
+      else if (type === 'vutrong') title = "🌾 Bảng vụ trồng";
       $('#resultTitle').text(title);
     }
 
@@ -380,61 +484,73 @@
       if (!Array.isArray(data)) data = [];
       if (type === 'caytrong') {
         s += `<table class="w-full text-sm text-gray-700"><thead><tr>
-          <th class="px-6 py-3">STT</th>
-          <th class="px-6 py-3">Mã cây</th>
-          <th class="px-6 py-3">Tên cây</th>
-          <th class="px-6 py-3">Cách canh tác</th>
-          <th class="px-6 py-3">Phân bón</th>
-          <th class="px-6 py-3">Nguồn gốc</th>
-        </tr></thead><tbody>`;
+          <th class="px-6 py-3 text-left">STT</th>
+          <th class="px-6 py-3 text-left">Mã cây</th>
+          <th class="px-6 py-3 text-left">Tên cây</th>
+          <th class="px-6 py-3 text-left">Cách canh tác</th>
+          <th class="px-6 py-3 text-left">Phân bón</th>
+          <th class="px-6 py-3 text-left">Nguồn gốc</th>
+        </tr></thead><tbody class="addListCayTrong">`;
         data.forEach(item => {
           s += `<tr>
-            <td class="px-6 py-3">${stt++}</td>
-            <td class="px-6 py-3">${item.MaC}</td>
-            <td class="px-6 py-3">${item.TenC}</td>
-            <td class="px-6 py-3">${item.CachCanhTac || ""}</td>
-            <td class="px-6 py-3">${item.PhanBon || ""}</td>
-            <td class="px-6 py-3">${item.NguonGoc || ""}</td>
+            <td class="px-6 py-3 text-left">${stt++}</td>
+            <td class="px-6 py-3 text-left">${item.MaC}</td>
+            <td class="px-6 py-3 text-left">${item.TenC}</td>
+            <td class="px-6 py-3 text-left">${item.CachCanhTac || ""}</td>
+            <td class="px-6 py-3 text-left">${item.PhanBon || ""}</td>
+            <td class="px-6 py-3 text-left">${item.NguonGoc || ""}</td>
           </tr>`;
         });
         s += '</tbody></table>';
       } else if (type === 'nongdan') {
         s += `<table class="w-full text-sm text-gray-700"><thead><tr>
-          <th class="px-6 py-3">STT</th>
-          <th class="px-6 py-3">Mã ND</th>
-          <th class="px-6 py-3">Họ tên</th>
-          <th class="px-6 py-3">Địa chỉ</th>
-        </tr></thead><tbody>`;
+          <th class="px-6 py-3 text-left">STT</th>
+          <th class="px-6 py-3 text-left">Mã ND</th>
+          <th class="px-6 py-3 text-left">Họ tên</th>
+          <th class="px-6 py-3 text-left">Cư trú</th>
+        </tr></thead><tbody class="addListNongDan">`;
         data.forEach(item => {
           s += `<tr>
-            <td class="px-6 py-3">${stt++}</td>
-            <td class="px-6 py-3">${item.MaND}</td>
-            <td class="px-6 py-3">${item.HoTen}</td>
-            <td class="px-6 py-3">${item.DiaChi}</td>
+            <td class="px-6 py-3 text-left">${stt++}</td>
+            <td class="px-6 py-3 text-left">${item.MaND}</td>
+            <td class="px-6 py-3 text-left">${item.HoTen}</td>
+            <td class="px-6 py-3 text-left">${item.CuTru}</td>
           </tr>`;
         });
         s += '</tbody></table>';
       } else if (type === 'thuadat') {
         s += `<table class="w-full text-sm text-gray-700"><thead><tr>
-          <th class="px-6 py-3">STT</th>
-          <th class="px-6 py-3">Mã thửa đất</th>
-          <th class="px-6 py-3">Tên thửa đất</th>
-          <th class="px-6 py-3">Mã ND</th>
-          <th class="px-6 py-3">Địa chỉ</th>
-          <th class="px-6 py-3">Mã cây</th>
-          <th class="px-6 py-3">Bắt đầu</th>
-          <th class="px-6 py-3">Kết thúc</th>
-        </tr></thead><tbody>`;
+          <th class="px-6 py-3 text-left">STT</th>
+          <th class="px-6 py-3 text-left">Mã thửa đất</th>
+          <th class="px-6 py-3 text-left">Mã ND</th>
+          <th class="px-6 py-3 text-left">Địa chỉ</th>
+        </tr></thead><tbody class="addListThuaDat">`;
         data.forEach(item => {
           s += `<tr>
-            <td class="px-6 py-3">${stt++}</td>
-            <td class="px-6 py-3">${item.MaTD}</td>
-            <td class="px-6 py-3">${item.TenTD || ""}</td>
-            <td class="px-6 py-3">${item.MaND}</td>
-            <td class="px-6 py-3">${item.DiaChi}</td>
-            <td class="px-6 py-3">${item.MaC}</td>
-            <td class="px-6 py-3">${item.ThoiGianBatDau || ""}</td>
-            <td class="px-6 py-3">${item.ThoiGianKetThuc || ""}</td>
+            <td class="px-6 py-3 text-left">${stt++}</td>
+            <td class="px-6 py-3 text-left">${item.MaTD}</td>
+            <td class="px-6 py-3 text-left">${item.MaND}</td>
+            <td class="px-6 py-3 text-left">${item.DiaChi}</td>
+          </tr>`;
+        });
+        s += '</tbody></table>';
+      } else if (type === 'vutrong') {
+        s += `<table class="w-full text-sm text-gray-700"><thead><tr>
+          <th class="px-6 py-3 text-left">STT</th>
+          <th class="px-6 py-3 text-left">Mã ND</th>
+          <th class="px-6 py-3 text-left">Mã thửa đất</th>
+          <th class="px-6 py-3 text-left">Mã cây</th>
+          <th class="px-6 py-3 text-left">Bắt đầu</th>
+          <th class="px-6 py-3 text-left">Kết thúc</th>
+        </tr></thead><tbody class="addListVuTrong">`;
+        data.forEach(item => {
+          s += `<tr>
+            <td class="px-6 py-3 text-left">${stt++}</td>
+            <td class="px-6 py-3 text-left">${item.MaND}</td>
+            <td class="px-6 py-3 text-left">${item.MaTD}</td>
+            <td class="px-6 py-3 text-left">${item.MaC}</td>
+            <td class="px-6 py-3 text-left">${item.ThoiGianBatDau || ""}</td>
+            <td class="px-6 py-3 text-left">${item.ThoiGianKetThuc || ""}</td>
           </tr>`;
         });
         s += '</tbody></table>';
@@ -442,8 +558,9 @@
       $('#resultTable').html(s);
     }
 
-    // Lấy danh sách nông dân và cây trồng để đổ vào datalist (gợi ý nhập)
+    // Hàm lấy danh sách nông dân và cây trồng để đổ vào datalist (gợi ý nhập)
     function loadSelectOptions() {
+      // Gợi ý mã nông dân cho form thửa đất
       $.ajax({
         url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
         type: "POST",
@@ -453,9 +570,10 @@
           res.forEach(nd => {
             ndOptions += `<option value="${nd.MaND}">${nd.MaND} - ${nd.HoTen}</option>`;
           });
-          $('#listMaND').html(ndOptions);
+          $('#listMaND').html(ndOptions); // Gợi ý cho form thửa đất
         }
       });
+      // Gợi ý mã cây cho các form khác (giữ nguyên)
       $.ajax({
         url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
         type: "POST",
@@ -470,14 +588,10 @@
       });
     }
 
-    $(document).ready(function() {
-      loadSelectOptions();
-      showResultTable('thuadat');
-    });
-
     // Hiển thị mặc định bảng thửa đất khi vào trang
     $(document).ready(function() {
       showResultTable('thuadat');
+      loadSelectOptions(); // <-- Thêm dòng này để gợi ý luôn hiện khi vào trang
     });
 
     // Reset form cây trồng
@@ -497,6 +611,12 @@
       loadSelectOptions();
     });
 
+    // Reset form vụ trồng
+    $('#resetVuTrong').on('click', function() {
+      $('#formVuTrong')[0].reset();
+      loadSelectOptions();
+    });
+
     // Nút chuyển bảng kết quả
     $('#showCayTrong').on('click', function() {
       showResultTable('caytrong');
@@ -507,6 +627,222 @@
     $('#showThuaDat').on('click', function() {
       showResultTable('thuadat');
     });
+    $('#showVuTrong').on('click', function() {
+      showResultTable('vutrong');
+    });
+
+    // Hàm loại bỏ dấu tiếng Việt
+    function removeVietnameseTones(str) {
+      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      str = str.replace(/đ/g, 'd').replace(/Đ/g, 'D');
+      return str;
+    }
+
+    // Hàm filter liên kết các bảng
+    function filterTables(keyword) {
+      keyword = keyword.toLowerCase();
+      let keywordNoSign = removeVietnameseTones(keyword);
+
+      // --- Cây trồng ---
+      let matchedMaC = [];
+      let cayTrongFound = false;
+      $('.addListCayTrong tr').each(function() {
+        let tds = $(this).find('td');
+        let maC = tds.eq(1).text().trim();
+        let tenC = tds.eq(2).text().toLowerCase();
+        let cachCanhTac = tds.eq(3).text().toLowerCase();
+        let phanBon = tds.eq(4).text().toLowerCase();
+        let nguonGoc = tds.eq(5).text().toLowerCase();
+
+        let allText = [
+          maC, tenC, cachCanhTac, phanBon, nguonGoc
+        ].map(txt => txt + removeVietnameseTones(txt)).join(' ').toLowerCase();
+
+        if (allText.includes(keyword) || allText.includes(keywordNoSign)) {
+          matchedMaC.push(maC);
+          $(this).show();
+          cayTrongFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Vụ trồng ---
+      let matchedMaTD = [];
+      let matchedMaND = [];
+      let vuTrongFound = false;
+      $('.addListVuTrong tr').each(function() {
+        let tds = $(this).find('td');
+        let maND_vt = tds.eq(1).text().trim();
+        let maTD_vt = tds.eq(2).text().trim();
+        let maC_vt = tds.eq(3).text().trim();
+        let thoiGianBatDau = tds.eq(4).text().toLowerCase();
+        let thoiGianKetThuc = tds.eq(5).text().toLowerCase();
+
+        let allText = [
+          maND_vt, maTD_vt, maC_vt, thoiGianBatDau, thoiGianKetThuc
+        ].map(txt => txt + removeVietnameseTones(txt)).join(' ').toLowerCase();
+
+        // Nếu vụ trồng liên quan đến cây trồng hoặc khớp từ khóa
+        if (
+          matchedMaC.includes(maC_vt) ||
+          allText.includes(keyword) ||
+          allText.includes(keywordNoSign)
+        ) {
+          matchedMaTD.push(maTD_vt);
+          matchedMaND.push(maND_vt);
+          $(this).show();
+          vuTrongFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Thửa đất ---
+      let thuaDatFound = false;
+      $('.addListThuaDat tr').each(function() {
+        let tds = $(this).find('td');
+        let maTD = tds.eq(1).text().trim();
+        let maND_td = tds.eq(2).text().trim();
+        let diaChi = tds.eq(3).text().toLowerCase();
+
+        let allText = [
+          maTD, maND_td, diaChi
+        ].map(txt => txt + removeVietnameseTones(txt)).join(' ').toLowerCase();
+
+        // Nếu thửa đất liên quan đến vụ trồng hoặc khớp từ khóa
+        if (
+          matchedMaTD.includes(maTD) ||
+          allText.includes(keyword) ||
+          allText.includes(keywordNoSign)
+        ) {
+          $(this).show();
+          thuaDatFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Nông dân ---
+      let nongDanFound = false;
+      $('.addListNongDan tr').each(function() {
+        let tds = $(this).find('td');
+        let maND = tds.eq(1).text().trim();
+        let hoTen = tds.eq(2).text().toLowerCase();
+        let cuTru = tds.eq(3).text().toLowerCase();
+
+        let allText = [
+          maND, hoTen, cuTru
+        ].map(txt => txt + removeVietnameseTones(txt)).join(' ').toLowerCase();
+
+        // Nếu nông dân liên quan đến vụ trồng hoặc khớp từ khóa
+        if (
+          matchedMaND.includes(maND) ||
+          allText.includes(keyword) ||
+          allText.includes(keywordNoSign)
+        ) {
+          $(this).show();
+          nongDanFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // Ẩn bảng nếu không có dòng nào hiển thị
+      $('.addListCayTrong').closest('.bg-white.shadow-lg').toggle(cayTrongFound || keyword === "");
+      $('.addListNongDan').closest('.bg-white.shadow-lg').toggle(nongDanFound || keyword === "");
+      $('.addListThuaDat').closest('.bg-white.shadow-lg').toggle(thuaDatFound || keyword === "");
+      $('.addListVuTrong').closest('.bg-white.shadow-lg').toggle(vuTrongFound || keyword === "");
+
+      // Hiển thị thông báo nếu không có kết quả
+      if (!cayTrongFound && !nongDanFound && !thuaDatFound && !vuTrongFound && keyword !== "") {
+        if ($('#noResultMsg').length === 0) {
+          $('<div id="noResultMsg" class="text-center text-red-500 text-lg font-semibold my-8">Không tìm thấy kết quả</div>')
+            .insertAfter('.flex.justify-center.mb-8');
+        }
+      } else {
+        $('#noResultMsg').remove();
+      }
+    }
+
+    // Gọi hàm filterTables khi nhập từ khóa
+    $('#searchInput').on('input', function() {
+      filterTables($(this).val());
+    });
+
+    // Hàm lấy danh sách gợi ý cho vụ trồng
+    function loadVuTrongOptions() {
+      // Mã nông dân
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let ndOptions = '';
+          res.forEach(nd => {
+            ndOptions += `<option value="${nd.MaND}">${nd.MaND} - ${nd.HoTen}</option>`;
+          });
+          $('#listMaND_VT').html(ndOptions);
+        }
+      });
+      // Mã thửa đất
+      $.ajax({
+        url: "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let tdOptions = '';
+          res.forEach(td => {
+            tdOptions += `<option value="${td.MaTD}">${td.MaTD} - ${td.DiaChi}</option>`;
+          });
+          $('#listMaTD_VT').html(tdOptions);
+        }
+      });
+      // Mã cây
+      $.ajax({
+        url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let cayOptions = '';
+          res.forEach(c => {
+            cayOptions += `<option value="${c.MaC}">${c.MaC} - ${c.TenC}</option>`;
+          });
+          $('#listMaC_VT').html(cayOptions);
+        }
+      });
+    }
+
+    // Gọi lại khi thêm/xóa nông dân, thửa đất, cây trồng
+    $('#addNongDan, #deleteNongDan').on('click', function() {
+      setTimeout(loadVuTrongOptions, 500);
+    });
+    $('#addThuaDat, #deleteThuaDat').on('click', function() {
+      setTimeout(loadVuTrongOptions, 500);
+    });
+    $('#addCayTrong, #deleteCayTrong').on('click', function() {
+      setTimeout(loadVuTrongOptions, 500);
+    });
+
+    // Gọi khi vào trang và khi reset form vụ trồng
+    $(document).ready(function() {
+      loadVuTrongOptions();
+    });
+    $('#resetVuTrong').on('click', function() {
+      $('#formVuTrong')[0].reset();
+      loadVuTrongOptions();
+    });
+
+    $(document).on('click', '.addListVuTrong tr', function() {
+      const tds = $(this).find('td');
+      $('#MaND_VT').val(tds.eq(1).text()).data('old-value', tds.eq(1).text());
+      $('#MaTD_VT').val(tds.eq(2).text()).data('old-value', tds.eq(2).text());
+      $('#MaC_VT').val(tds.eq(3).text()).data('old-value', tds.eq(3).text());
+      $('#ThoiGianBatDau_VT').val(tds.eq(4).text()).data('old-value', tds.eq(4).text());
+      $('#ThoiGianKetThuc_VT').val(tds.eq(5).text()).data('old-value', tds.eq(5).text());
+    });
+
+
   </script>
 </body>
 </html>
