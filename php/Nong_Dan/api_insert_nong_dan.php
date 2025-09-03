@@ -10,14 +10,14 @@ header('Content-Type: application/json; charset=UTF-8');
 // Lấy dữ liệu từ POST
 $MaND   = $_POST['MaND']   ?? '';
 $HoTen  = $_POST['HoTen']  ?? '';
-$DiaChi = $_POST['DiaChi'] ?? '';
+$CuTru  = $_POST['CuTru']  ?? '';   // đổi từ DiaChi -> CuTru
 
 // Kiểm tra dữ liệu không được rỗng
-if (!empty($MaND) && !empty($HoTen) && !empty($DiaChi)) {
+if (!empty($MaND) && !empty($HoTen) && !empty($CuTru)) {
     try {
         // Chuẩn bị câu lệnh
-        $stmt = $conn->prepare("INSERT INTO nongdan (MaND, HoTen, DiaChi) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $MaND, $HoTen, $DiaChi);
+        $stmt = $conn->prepare("INSERT INTO nongdan (MaND, HoTen, CuTru) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $MaND, $HoTen, $CuTru);
 
         // Thực thi câu lệnh
         if ($stmt->execute()) {

@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <script src="/qlvt/build/assets/js/session.js"></script>
-
   <title>Bảng thông tin</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Poppins', sans-serif; }
@@ -47,21 +45,12 @@
         <i class="fas fa-database text-xl"></i>
         <span>Quản lý thông tin</span>
       </a>
-      <div class="mt-6 mb-2 px-4 text-xs text-white uppercase tracking-wide font-semibold">Trang cá nhân</div>
-      <a href="#" data-logout class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
-        <i class="fas fa-sign-in-alt text-xl"></i>
-        <span>Đăng xuất</span>
-      </a>
-      <a href="dang_ky.html" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-700 text-white font-medium shadow transition duration-200 hover:shadow-xl hover:bg-green-800 hover:scale-105">
-        <i class="fas fa-user-plus text-xl"></i>
-        <span>Đăng ký</span>
-      </a>
     </nav>
   </aside>
 
   <!-- Main content -->
   <main class="flex-1 ml-64 p-6 space-y-8">
-    <!-- Khung tên user như trang chủ, ở giữa -->
+    <!-- Khung tên user -->
     <div class="flex justify-between items-center mb-8">
       <div>
         <h1 class="text-2xl font-bold" id="welcome-title">Xin chào</h1>
@@ -71,7 +60,7 @@
         <a href="#" data-logout class="text-sm text-blue-500 underline">Đăng xuất</a>
       </div>
     </div>
-    <!-- Thanh tìm kiếm ở giữa -->
+    <!-- Thanh tìm kiếm -->
     <div class="flex justify-center mb-8">
       <input
         type="text"
@@ -121,7 +110,7 @@
               <th class="px-6 py-3 text-left">STT</th>
               <th class="px-6 py-3 text-left">MÃ ND</th>
               <th class="px-6 py-3 text-left">HỌ TÊN</th>
-              <th class="px-6 py-3 text-left">ĐỊA CHỈ</th>
+              <th class="px-6 py-3 text-left">CƯ TRÚ</th>
             </tr>
           </thead>
           <tbody class="addListNongDan"></tbody>
@@ -143,15 +132,36 @@
             <tr>
               <th class="px-6 py-3 text-left">STT</th>
               <th class="px-6 py-3 text-left">MÃ THỬA ĐẤT</th>
-              <th class="px-6 py-3 text-left">TÊN THỬA ĐẤT</th>
               <th class="px-6 py-3 text-left">MÃ NÔNG DÂN</th>
               <th class="px-6 py-3 text-left">ĐỊA CHỈ</th>
-              <th class="px-6 py-3 text-left">MÃ CÂY</th>
-              <th class="px-6 py-3 text-left">BẮT ĐẦU</th>
-              <th class="px-6 py-3 text-left">KẾT THÚC</th>
             </tr>
           </thead>
           <tbody class="addListThuaDat"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bảng vụ trồng -->
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden mb-8">
+      <div class="flex justify-between items-center p-6 border-b bg-green-50 sticky top-0 z-10">
+        <h6 class="font-semibold text-lg text-green-700">🌾 Danh sách vụ trồng</h6>
+        <button id="exportVuTrong" class="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600">
+          <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+        </button>
+      </div>
+      <div class="overflow-x-auto" style="max-height: 260px; overflow-y: auto;">
+        <table class="w-full text-sm text-gray-700">
+          <thead class="sticky top-0 z-10">
+            <tr>
+              <th class="px-6 py-3 text-left">STT</th>
+              <th class="px-6 py-3 text-left">MÃ NÔNG DÂN</th>
+              <th class="px-6 py-3 text-left">MÃ THỬA ĐẤT</th>
+              <th class="px-6 py-3 text-left">MÃ CÂY</th>
+              <th class="px-6 py-3 text-left">THỜI GIAN BẮT ĐẦU</th>
+              <th class="px-6 py-3 text-left">THỜI GIAN KẾT THÚC</th>
+            </tr>
+          </thead>
+          <tbody class="addListVuTrong"></tbody>
         </table>
       </div>
     </div>
@@ -165,231 +175,295 @@
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Thêm thư viện SheetJS -->
+  <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <script>
-  let listNongDan = [];
-let listCayTrong = [];
+    // Hiển thị tên đăng nhập
+    const username = localStorage.getItem("username");
+    document.getElementById("username-display").textContent = username ? username : "Khách";
+    document.getElementById("welcome-title").textContent = username ? `Xin chào ${username}` : "Xin chào Khách";
 
-function showNongDan(){
-    $.ajax({
-        url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
-        type: "POST",
-        dataType: "json",
-        success: function(res) {
-            listNongDan = res; // Lưu lại danh sách nông dân
-            let s = '';
-            let stt = 1;
-            res.forEach(item => {
-                s += `
-                <tr>
-                  <td class="px-6 py-3">${stt++}</td>
-                  <td class="px-6 py-3">${item.MaND}</td>
-                  <td class="px-6 py-3">${item.HoTen}</td>
-                  <td class="px-6 py-3">${item.DiaChi}</td>
-                </tr>`;
-            });
-            $('.addListNongDan').html(s);
-        }
-    });
-}
-
-function showCayTrong(){
-    $.ajax({
+    // Hiển thị bảng cây trồng
+    function showCayTrong(){
+      $.ajax({
         url: "http://localhost/qlvt/php/Cay_Trong/api_get_cay_trong.php",
         type: "POST",
         dataType: "json",
         success: function(res) {
-            listCayTrong = res; // Lưu lại danh sách cây trồng
-            let s = '';
-            let stt = 1;
-            res.forEach(item => {
-                s += `
-                <tr>
-                  <td class="px-6 py-3">${stt++}</td>
-                  <td class="px-6 py-3">${item.MaC}</td>
-                  <td class="px-6 py-3">${item.TenC}</td>
-                  <td class="px-6 py-3">${item.CachCanhTac}</td>
-                  <td class="px-6 py-3">${item.PhanBon}</td>
-                  <td class="px-6 py-3">${item.NguonGoc}</td>
-                </tr>`;
-            });
-            $('.addListCayTrong').html(s);
+          let s = '';
+          let stt = 1;
+          res.forEach(item => {
+            s += `
+              <tr>
+                <td class="px-6 py-3">${stt++}</td>
+                <td class="px-6 py-3">${item.MaC}</td>
+                <td class="px-6 py-3">${item.TenC}</td>
+                <td class="px-6 py-3">${item.CachCanhTac}</td>
+                <td class="px-6 py-3">${item.PhanBon}</td>
+                <td class="px-6 py-3">${item.NguonGoc}</td>
+              </tr>`;
+          });
+          $('.addListCayTrong').html(s);
         }
-    });
-}
+      });
+    }
 
-function showThuaDat(){
-    $.ajax({
+    // Hiển thị bảng nông dân
+    function showNongDan(){
+      $.ajax({
+        url: "http://localhost/qlvt/php/Nong_Dan/api_get_nong_dan.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let s = '';
+          let stt = 1;
+          res.forEach(item => {
+            s += `
+              <tr>
+                <td class="px-6 py-3">${stt++}</td>
+                <td class="px-6 py-3">${item.MaND}</td>
+                <td class="px-6 py-3">${item.HoTen}</td>
+                <td class="px-6 py-3">${item.CuTru}</td>
+              </tr>`;
+          });
+          $('.addListNongDan').html(s);
+        }
+      });
+    }
+
+    // Hiển thị bảng thửa đất
+    function showThuaDat(){
+      $.ajax({
         url: "http://localhost/qlvt/php/Thua_Dat/api_get_thua_dat.php",
         type: "POST",
         dataType: "json",
         success: function(res) {
-            let s = '';
-            let stt = 1;
-            res.forEach(item => {
-                s += `
+          let s = '';
+          let stt = 1;
+          res.forEach(item => {
+            s += `
+              <tr>
+                <td class="px-6 py-3">${stt++}</td>
+                <td class="px-6 py-3">${item.MaTD}</td>
+                <td class="px-6 py-3">${item.MaND}</td>
+                <td class="px-6 py-3">${item.DiaChi}</td>
+              </tr>`;
+          });
+          $('.addListThuaDat').html(s);
+        }
+      });
+    }
+
+    // Hiển thị bảng vụ trồng
+    function showVuTrong(){
+      $.ajax({
+        url: "http://localhost/qlvt/php/Vu_Trong/api_get_trong.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+          let s = '';
+          let stt = 1;
+          if (res.status === "success" && Array.isArray(res.data)) {
+            res.data.forEach(item => {
+              s += `
                 <tr>
                   <td class="px-6 py-3">${stt++}</td>
-                  <td class="px-6 py-3">${item.MaTD}</td>
-                  <td class="px-6 py-3">${item.TenTD}</td>
-                  <td class="px-6 py-3">${item.MaND}</td>
-                  <td class="px-6 py-3">${item.DiaChi}</td>
-                  <td class="px-6 py-3">${item.MaC}</td>
-                  <td class="px-6 py-3">${item.ThoiGianBatDau}</td>
-                  <td class="px-6 py-3">${item.ThoiGianKetThuc}</td>
+                  <td class="px-6 py-3">${item.MaND || ""}</td>
+                  <td class="px-6 py-3">${item.MaTD || ""}</td>
+                  <td class="px-6 py-3">${item.MaC || ""}</td>
+                  <td class="px-6 py-3">${item.ThoiGianBatDau || ""}</td>
+                  <td class="px-6 py-3">${item.ThoiGianKetThuc || ""}</td>
                 </tr>`;
             });
-            $('.addListThuaDat').html(s);
+          }
+          $('.addListVuTrong').html(s);
         }
-    });
-}
-
-  // Hàm lọc bảng theo từ khóa
-  function filterTables(keyword) {
-  keyword = keyword.toLowerCase();
-
-  // Tìm các mã cây liên quan đến keyword ở bảng cây trồng
-  let matchedMaC = [];
-  $('.addListCayTrong tr').each(function() {
-    let maC = $(this).find('td').eq(1).text().trim();
-    let tenC = $(this).find('td').eq(2).text().toLowerCase();
-    if (tenC.indexOf(keyword) > -1 || maC.toLowerCase().indexOf(keyword) > -1) {
-      matchedMaC.push(maC);
+      });
     }
-  });
 
-  // Tìm các mã nông dân liên quan đến keyword ở bảng nông dân
-  let matchedMaND = [];
-  $('.addListNongDan tr').each(function() {
-    let maND = $(this).find('td').eq(1).text().trim();
-    let hoTen = $(this).find('td').eq(2).text().toLowerCase();
-    if (hoTen.indexOf(keyword) > -1 || maND.toLowerCase().indexOf(keyword) > -1) {
-      matchedMaND.push(maND);
+    // Hàm loại bỏ dấu tiếng Việt
+    function removeVietnameseTones(str) {
+      str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      str = str.replace(/đ/g, 'd').replace(/Đ/g, 'D');
+      return str;
     }
-  });
 
-  // Tìm các thửa đất liên quan đến mã cây hoặc mã nông dân
-  let matchedMaTD = [];
-  $('.addListThuaDat tr').each(function() {
-    let maTD = $(this).find('td').eq(1).text().trim();
-    let maND_td = $(this).find('td').eq(3).text().trim();
-    let maC_td = $(this).find('td').eq(5).text().trim();
-    if (matchedMaC.includes(maC_td) || matchedMaND.includes(maND_td)) {
-      matchedMaTD.push(maTD);
-    }
-  });
+    // Hàm lọc bảng theo từ khóa, liên kết các bảng và mở rộng cho bảng Vụ trồng, tính cả trường hợp có dấu/không dấu
+    function filterTables(keyword) {
+      keyword = keyword.toLowerCase();
+      let keywordNoSign = removeVietnameseTones(keyword);
 
-  // Nếu search cây trồng, lấy MaND từ thửa đất liên quan và hiện nông dân đó
-  if (matchedMaC.length > 0 && matchedMaND.length === 0) {
-    $('.addListThuaDat tr').each(function() {
-      let maC_td = $(this).find('td').eq(5).text().trim();
-      let maND_td = $(this).find('td').eq(3).text().trim();
-      if (matchedMaC.includes(maC_td)) {
-        if (!matchedMaND.includes(maND_td)) matchedMaND.push(maND_td);
+      // --- Cây trồng ---
+      let cayTrongFound = false;
+      let matchedMaC = [];
+      $('.addListCayTrong tr').each(function() {
+        let tds = $(this).find('td');
+        let maC = tds.eq(1).text().trim();
+        let tenC = tds.eq(2).text().toLowerCase();
+        let cachCanhTac = tds.eq(3).text().toLowerCase();
+        let phanBon = tds.eq(4).text().toLowerCase();
+        let nguonGoc = tds.eq(5).text().toLowerCase();
+
+        let allText = [
+          maC, tenC, cachCanhTac, phanBon, nguonGoc
+        ].map(txt => txt.toLowerCase() + removeVietnameseTones(txt.toLowerCase())).join(' ');
+
+        if (allText.includes(keyword) || allText.includes(keywordNoSign)) {
+          matchedMaC.push(maC);
+          $(this).show();
+          cayTrongFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Nông dân ---
+      let nongDanFound = false;
+      let matchedMaND = [];
+      $('.addListNongDan tr').each(function() {
+        let tds = $(this).find('td');
+        let maND = tds.eq(1).text().trim();
+        let hoTen = tds.eq(2).text().toLowerCase();
+        let cuTru = tds.eq(3).text().toLowerCase();
+
+        let allText = [
+          maND, hoTen, cuTru
+        ].map(txt => txt.toLowerCase() + removeVietnameseTones(txt.toLowerCase())).join(' ');
+
+        if (allText.includes(keyword) || allText.includes(keywordNoSign)) {
+          matchedMaND.push(maND);
+          $(this).show();
+          nongDanFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Thửa đất ---
+      let thuaDatFound = false;
+      let matchedMaTD = [];
+      $('.addListThuaDat tr').each(function() {
+        let tds = $(this).find('td');
+        let maTD = tds.eq(1).text().trim();
+        let maND_td = tds.eq(2).text().trim();
+        let diaChi = tds.eq(3).text().toLowerCase();
+
+        let allText = [
+          maTD, maND_td, diaChi
+        ].map(txt => txt.toLowerCase() + removeVietnameseTones(txt.toLowerCase())).join(' ');
+
+        if (allText.includes(keyword) || allText.includes(keywordNoSign)) {
+          matchedMaTD.push(maTD);
+          $(this).show();
+          thuaDatFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // --- Vụ trồng ---
+      let vuTrongFound = false;
+      $('.addListVuTrong tr').each(function() {
+        let tds = $(this).find('td');
+        let maND_vt = tds.eq(1).text().trim();
+        let maTD_vt = tds.eq(2).text().trim();
+        let maC_vt = tds.eq(3).text().trim();
+        let thoiGianBatDau = tds.eq(4).text().toLowerCase();
+        let thoiGianKetThuc = tds.eq(5).text().toLowerCase();
+
+        let allText = [
+          maND_vt, maTD_vt, maC_vt, thoiGianBatDau, thoiGianKetThuc
+        ].map(txt => txt.toLowerCase() + removeVietnameseTones(txt.toLowerCase())).join(' ');
+
+        if (
+          allText.includes(keyword) || allText.includes(keywordNoSign) ||
+          matchedMaC.includes(maC_vt) ||
+          matchedMaND.includes(maND_vt) ||
+          matchedMaTD.includes(maTD_vt)
+        ) {
+          $(this).show();
+          vuTrongFound = true;
+        } else {
+          $(this).hide();
+        }
+      });
+
+      // Ẩn bảng nếu không có dòng nào hiển thị
+      $('.addListCayTrong').closest('.bg-white.shadow-lg').toggle(cayTrongFound || keyword === "");
+      $('.addListNongDan').closest('.bg-white.shadow-lg').toggle(nongDanFound || keyword === "");
+      $('.addListThuaDat').closest('.bg-white.shadow-lg').toggle(thuaDatFound || keyword === "");
+      $('.addListVuTrong').closest('.bg-white.shadow-lg').toggle(vuTrongFound || keyword === "");
+
+      // Hiển thị thông báo nếu không có kết quả
+      if (!cayTrongFound && !nongDanFound && !thuaDatFound && !vuTrongFound && keyword !== "") {
+        if ($('#noResultMsg').length === 0) {
+          $('<div id="noResultMsg" class="text-center text-red-500 text-lg font-semibold my-8">Không tìm thấy kết quả</div>')
+            .insertAfter('.flex.justify-center.mb-8');
+        }
+      } else {
+        $('#noResultMsg').remove();
       }
+    }
+
+    // Xuất bảng ra Excel
+    function exportTableToExcel(tbodySelector, filename) {
+      var tbody = document.querySelector(tbodySelector);
+      if (!tbody) return;
+      var table = tbody.closest('table');
+      var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+      XLSX.writeFile(wb, filename);
+    }
+
+    // Xuất tất cả bảng ra 1 file Excel
+    function exportAllTablesToExcel() {
+      var wb = XLSX.utils.book_new();
+      var tableCayTrong = document.querySelector('.addListCayTrong').closest('table');
+      var wsCayTrong = XLSX.utils.table_to_sheet(tableCayTrong);
+      XLSX.utils.book_append_sheet(wb, wsCayTrong, "Cây trồng");
+
+      var tableNongDan = document.querySelector('.addListNongDan').closest('table');
+      var wsNongDan = XLSX.utils.table_to_sheet(tableNongDan);
+      XLSX.utils.book_append_sheet(wb, wsNongDan, "Nông dân");
+
+      var tableThuaDat = document.querySelector('.addListThuaDat').closest('table');
+      var wsThuaDat = XLSX.utils.table_to_sheet(tableThuaDat);
+      XLSX.utils.book_append_sheet(wb, wsThuaDat, "Thửa đất");
+
+      var tableVuTrong = document.querySelector('.addListVuTrong').closest('table');
+      var wsVuTrong = XLSX.utils.table_to_sheet(tableVuTrong);
+      XLSX.utils.book_append_sheet(wb, wsVuTrong, "Vụ trồng");
+
+      XLSX.writeFile(wb, "BangThongTin.xlsx");
+    }
+
+    // Sự kiện
+    $(document).ready(function(){
+      showCayTrong();
+      showNongDan();
+      showThuaDat();
+      showVuTrong();
+
+      $('#searchInput').on('input', function() {
+        filterTables($(this).val());
+      });
+
+      $('#exportCayTrong').on('click', function() {
+        exportTableToExcel('.addListCayTrong', 'CayTrong.xlsx');
+      });
+      $('#exportNongDan').on('click', function() {
+        exportTableToExcel('.addListNongDan', 'NongDan.xlsx');
+      });
+      $('#exportThuaDat').on('click', function() {
+        exportTableToExcel('.addListThuaDat', 'ThuaDat.xlsx');
+      });
+      $('#exportVuTrong').on('click', function() {
+        exportTableToExcel('.addListVuTrong', 'VuTrong.xlsx');
+      });
+      $('#exportAllExcel').on('click', function() {
+        exportAllTablesToExcel();
+      });
     });
-  }
-
-  // Nếu search nông dân, lấy MaC từ thửa đất liên quan và hiện cây trồng đó
-  if (matchedMaND.length > 0 && matchedMaC.length === 0) {
-    $('.addListThuaDat tr').each(function() {
-      let maND_td = $(this).find('td').eq(3).text().trim();
-      let maC_td = $(this).find('td').eq(5).text().trim();
-      if (matchedMaND.includes(maND_td)) {
-        if (!matchedMaC.includes(maC_td)) matchedMaC.push(maC_td);
-      }
-    });
-  }
-
-  // Hiện cây trồng liên quan
-  $('.addListCayTrong tr').each(function() {
-    let maC = $(this).find('td').eq(1).text().trim();
-    let tenC = $(this).find('td').eq(2).text().toLowerCase();
-    $(this).toggle(matchedMaC.includes(maC) || tenC.indexOf(keyword) > -1);
-  });
-
-  // Hiện nông dân liên quan
-  $('.addListNongDan tr').each(function() {
-    let maND = $(this).find('td').eq(1).text().trim();
-    let hoTen = $(this).find('td').eq(2).text().toLowerCase();
-    $(this).toggle(matchedMaND.includes(maND) || hoTen.indexOf(keyword) > -1);
-  });
-
-  // Hiện thửa đất liên quan
-  $('.addListThuaDat tr').each(function() {
-    let maTD = $(this).find('td').eq(1).text().trim();
-    $(this).toggle(matchedMaTD.includes(maTD));
-  });
-}
-
-  $(document).ready(function(){
-    showCayTrong();
-    showNongDan();
-    showThuaDat();
-
-    $('#searchInput').on('input', function() {
-      filterTables($(this).val());
-    });
-  });
-
-  // Hiển thị tên đăng nhập ở góc trên phải và tiêu đề
-  const username = localStorage.getItem("username");
-  if (username) {
-    document.getElementById("username-display").textContent = username;
-    document.getElementById("welcome-title").textContent = `Xin chào ${username}`;
-  } else {
-    document.getElementById("username-display").textContent = "Khách";
-    document.getElementById("welcome-title").textContent = "Xin chào Khách";
-  }
-
-  // Hàm xuất bảng ra Excel
-  function exportTableToExcel(tbodySelector, filename) {
-    var tbody = document.querySelector(tbodySelector);
-    if (!tbody) return;
-    var table = tbody.closest('table');
-    var wb = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
-    XLSX.writeFile(wb, filename);
-  }
-
-  // Sự kiện nút xuất Excel
-  $('#exportCayTrong').on('click', function() {
-    exportTableToExcel('.addListCayTrong', 'CayTrong.xlsx');
-  });
-  $('#exportNongDan').on('click', function() {
-    exportTableToExcel('.addListNongDan', 'NongDan.xlsx');
-  });
-  $('#exportThuaDat').on('click', function() {
-    exportTableToExcel('.addListThuaDat', 'ThuaDat.xlsx');
-  });
-
-  // Hàm xuất tất cả bảng ra 1 file Excel (nhiều sheet)
-  function exportAllTablesToExcel() {
-    var wb = XLSX.utils.book_new();
-
-    // Cây trồng
-    var tableCayTrong = document.querySelector('.addListCayTrong').closest('table');
-    var wsCayTrong = XLSX.utils.table_to_sheet(tableCayTrong);
-    XLSX.utils.book_append_sheet(wb, wsCayTrong, "Cây trồng");
-
-    // Nông dân
-    var tableNongDan = document.querySelector('.addListNongDan').closest('table');
-    var wsNongDan = XLSX.utils.table_to_sheet(tableNongDan);
-    XLSX.utils.book_append_sheet(wb, wsNongDan, "Nông dân");
-
-    // Thửa đất
-    var tableThuaDat = document.querySelector('.addListThuaDat').closest('table');
-    var wsThuaDat = XLSX.utils.table_to_sheet(tableThuaDat);
-    XLSX.utils.book_append_sheet(wb, wsThuaDat, "Thửa đất");
-
-    XLSX.writeFile(wb, "BangThongTin.xlsx");
-  }
-
-  // Sự kiện nút xuất tất cả Excel
-  $('#exportAllExcel').on('click', function() {
-    exportAllTablesToExcel();
-  });
   </script>
 </body>
 </html>

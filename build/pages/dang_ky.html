@@ -194,9 +194,8 @@
       e.preventDefault();
       $.post("../../php/Users/api_dang_ky.php", $(this).serialize(), function(res) {
         if(res.status === "success") {
-          alert("Đã tạo tài khoản thành công!");
-          $("#message").addClass("hidden");
-          // Có thể chuyển hướng hoặc reset form tại đây nếu muốn
+          alert("Đã tạo tài khoản thành công! Vui lòng đăng nhập tài khoản.");
+          window.location.href = "../pages/dang_nhap.html";
         } else {
           $("#message").removeClass("hidden").text(res.message);
         }

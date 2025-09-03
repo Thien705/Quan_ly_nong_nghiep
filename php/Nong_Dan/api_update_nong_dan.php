@@ -10,14 +10,14 @@ header('Content-Type: application/json; charset=UTF-8');
 // Lấy dữ liệu từ POST
 $MaND   = $_POST['MaND']   ?? '';
 $HoTen  = $_POST['HoTen']  ?? '';
-$DiaChi = $_POST['DiaChi'] ?? '';
+$CuTru  = $_POST['CuTru']  ?? '';   // đổi từ DiaChi -> CuTru
 
 // Kiểm tra dữ liệu đầu vào
-if (!empty($MaND) && !empty($HoTen) && !empty($DiaChi)) {
+if (!empty($MaND) && !empty($HoTen) && !empty($CuTru)) {
     try {
         // Chuẩn bị câu lệnh UPDATE
-        $stmt = $conn->prepare("UPDATE nongdan SET HoTen = ?, DiaChi = ? WHERE MaND = ?");
-        $stmt->bind_param("sss", $HoTen, $DiaChi, $MaND);
+        $stmt = $conn->prepare("UPDATE nongdan SET HoTen = ?, CuTru = ? WHERE MaND = ?");
+        $stmt->bind_param("sss", $HoTen, $CuTru, $MaND);
 
         // Thực thi
         if ($stmt->execute()) {
@@ -29,7 +29,7 @@ if (!empty($MaND) && !empty($HoTen) && !empty($DiaChi)) {
             } else {
                 echo json_encode([
                     "status" => "error",
-                    "message" => "Không tìm thấy hoặc không có thay đổi dữ liệu"
+                    "message" => "Không tìm thấy nông dân hoặc dữ liệu không thay đổi"
                 ], JSON_UNESCAPED_UNICODE);
             }
         } else {

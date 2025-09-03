@@ -1,62 +1,44 @@
 <?php
-// Bật thông báo lỗi chi tiết (giúp debug)
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include 'config.php';
-header('Content-Type: application/json; charset=UTF-8');
+header('Content-Type: application/json; charset=utf-8');
 
-// Lấy dữ liệu từ POST
-$MaTD   = $_POST['MaTD']   ?? '';
-$TenTD  = $_POST['TenTD']  ?? '';
-$MaND   = $_POST['MaND']   ?? '';
+// Nhận dữ liệu từ POST
+$MaTD   = $_POST['MaTD'] ?? '';
+$MaND   = $_POST['MaND'] ?? '';
 $DiaChi = $_POST['DiaChi'] ?? '';
-$MaC    = $_POST['MaC']    ?? '';
-$TGBD   = $_POST['ThoiGianBatDau']  ?? '';
-$TGKT   = $_POST['ThoiGianKetThuc'] ?? '';
 
-// Kiểm tra dữ liệu đầu vào
-if (!empty($MaTD) && !empty($TenTD) && !empty($MaND) && !empty($DiaChi) && !empty($MaC) && !empty($TGBD) && !empty($TGKT)) {
-    try {
-        // Chuẩn bị câu lệnh UPDATE
-        $stmt = $conn->prepare("UPDATE thuadat 
-            SET TenTD = ?, MaND = ?, DiaChi = ?, MaC = ?, ThoiGianBatDau = ?, ThoiGianKetThuc = ? 
-            WHERE MaTD = ?");
-        $stmt->bind_param("sssssss", $TenTD, $MaND, $DiaChi, $MaC, $TGBD, $TGKT, $MaTD);
-
-        // Thực thi
-        if ($stmt->execute()) {
-            if ($stmt->affected_rows > 0) {
-                echo json_encode([
-                    "status" => "success",
-                    "message" => "Cập nhật thông tin thửa đất thành công"
-                ], JSON_UNESCAPED_UNICODE);
-            } else {
-                echo json_encode([
-                    "status" => "error",
-                    "message" => "Không tìm thấy thửa đất hoặc không có thay đổi dữ liệu"
-                ], JSON_UNESCAPED_UNICODE);
-            }
-        } else {
-            echo json_encode([
-                "status" => "error",
-                "message" => "Không thể cập nhật dữ liệu"
-            ], JSON_UNESCAPED_UNICODE);
-        }
-
-        $stmt->close();
-    } catch (Exception $e) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Lỗi: " . $e->getMessage()
-        ], JSON_UNESCAPED_UNICODE);
-    }
-} else {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Thiếu dữ liệu đầu vào"
-    ], JSON_UNESCAPED_UNICODE);
+if ($MaTD == '' || $MaND == '' || $DiaChi == '') {
+    echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
+    exit;
 }
 
-$conn->close();
+// Kiểm tra thửa đất có tồn tại chưa
+$check = $conn->prepare("SELECT MaTD FROM thuadat WHERE MaTD=?");
+$check->bind_param("s", $MaTD);
+$check->execute();
+$res = $check->get_result();
+if ($res->num_rows == 0) {
+    echo json_encode(["success" => false, "message" => "Thửa đất không tồn tại"]);
+    exit;
+}
+
+// Kiểm tra mã nông dân có tồn tại không
+$check_nd = $conn->prepare("SELECT MaND FROM nongdan WHERE MaND=?");
+$check_nd->bind_param("s", $MaND);
+$check_nd->execute();
+$res_nd = $check_nd->get_result();
+if ($res_nd->num_rows == 0) {
+    echo json_encode(["success" => false, "message" => "Mã nông dân không tồn tại"]);
+    exit;
+}
+
+// Cập nhật
+$stmt = $conn->prepare("UPDATE thuadat SET MaND=?, DiaChi=? WHERE MaTD=?");
+$stmt->bind_param("sss", $MaND, $DiaChi, $MaTD);
+
+if ($stmt->execute()) {
+    echo json_encode(["success" => true, "message" => "Cập nhật thửa đất thành công"]);
+} else {
+    echo json_encode(["success" => false, "message" => "Lỗi khi cập nhật thửa đất"]);
+}
+?>
