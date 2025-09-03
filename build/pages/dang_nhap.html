@@ -177,9 +177,8 @@
         localStorage.setItem("username", username);
         localStorage.setItem("role", role);
 
-        const dest = role === "admin" ? (PAGES + "admin_thua_dat.html")
-                                      : (PAGES + "trang_chu.html");
-        window.location.replace(dest);
+  // Admin cũng về trang chủ
+  window.location.replace(PAGES + "trang_chu.html");
       } else {
         const msg = res?.message || "Đăng nhập không thành công!";
         $("#message").removeClass("hidden").text(msg);
