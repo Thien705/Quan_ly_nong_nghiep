@@ -13,19 +13,41 @@ if ($MaTD == '' || $MaND == '' || $MaC == '' || $BatDau == '' || $KetThuc == '')
     exit;
 }
 
-// Kiểm tra trùng khoảng thời gian trên cùng thửa đất
-$sql_check = "SELECT * FROM trong 
-              WHERE MaTD = ? 
-              AND NOT (ThoiGianKetThuc < ? OR ThoiGianBatDau > ?)";
-$stmt = $conn->prepare($sql_check);
-$stmt->bind_param("sss", $MaTD, $BatDau, $KetThuc);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    echo json_encode(["status" => "error", "message" => "Khoảng thời gian bị trùng hoặc chạm biên với vụ khác!"]);
+// Kiểm tra ngày kết thúc phải sau ngày bắt đầu
+if (strtotime($KetThuc) <= strtotime($BatDau)) {
+    echo json_encode(["status" => "error", "message" => "Ngày kết thúc phải sau ngày bắt đầu"]);
     exit;
 }
+
+// Kiểm tra thửa đất có thuộc về đúng nông dân không
+$sql_check_owner = "SELECT MaND FROM thuadat WHERE MaTD = ? LIMIT 1";
+$stmt_owner = $conn->prepare($sql_check_owner);
+$stmt_owner->bind_param("s", $MaTD);
+$stmt_owner->execute();
+$result_owner = $stmt_owner->get_result();
+if ($row_owner = $result_owner->fetch_assoc()) {
+    if ($row_owner['MaND'] !== $MaND) {
+        echo json_encode(["status" => "error", "message" => "Thửa đất không thuộc về nông dân này!"]);
+        exit;
+    }
+} else {
+    echo json_encode(["status" => "error", "message" => "Không tìm thấy thửa đất!"]);
+    exit;
+}
+
+    // Kiểm tra trùng khoảng thời gian trên cùng thửa đất
+    $sql_check = "SELECT * FROM trong 
+                WHERE MaTD = ? 
+                AND NOT (ThoiGianKetThuc < ? OR ThoiGianBatDau > ?)";
+    $stmt = $conn->prepare($sql_check);
+    $stmt->bind_param("sss", $MaTD, $BatDau, $KetThuc);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(["status" => "error", "message" => "Khoảng thời gian bị trùng hoặc chạm biên với vụ khác!"]);
+        exit;
+    }
 
 // Nếu hợp lệ thì thêm
 $sql = "INSERT INTO trong (MaTD, MaND, MaC, ThoiGianBatDau, ThoiGianKetThuc)
