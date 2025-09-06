@@ -424,6 +424,14 @@
         success: function(res) {
           alert(res.status === "success" ? "Sửa vụ trồng thành công!" : "Sửa vụ trồng thất bại!");
           showResultTable('vutrong');
+          // Cập nhật lại old-value sau khi sửa thành công
+  if (res.status === "success") {
+    $('#MaND_VT').data('old-value', $('#MaND_VT').val());
+    $('#MaTD_VT').data('old-value', $('#MaTD_VT').val());
+    $('#MaC_VT').data('old-value', $('#MaC_VT').val());
+    $('#ThoiGianBatDau_VT').data('old-value', $('#ThoiGianBatDau_VT').val());
+    $('#ThoiGianKetThuc_VT').data('old-value', $('#ThoiGianKetThuc_VT').val());
+  }
         },
         error: function() {
           alert("Lỗi khi gửi yêu cầu đến server!");

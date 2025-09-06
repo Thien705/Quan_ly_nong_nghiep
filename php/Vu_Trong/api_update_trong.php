@@ -20,10 +20,10 @@ if ($MaND == '' || $MaTD == '' || $MaC == '' || $BatDau == '' || $KetThuc == '' 
     exit;
 }
 
-// Kiểm tra trùng khoảng thời gian (cho phép chạm biên)
+// Kiểm tra trùng khoảng thời gian (KHÔNG cho phép chạm biên)
 $sql_check = "SELECT * FROM trong 
               WHERE MaND = ? AND MaTD = ? AND MaC = ?
-              AND NOT (ThoiGianKetThuc <= ? OR ThoiGianBatDau >= ?)
+              AND NOT (ThoiGianKetThuc < ? OR ThoiGianBatDau > ?)
               AND NOT (MaND = ? AND MaTD = ? AND MaC = ? AND ThoiGianBatDau = ? AND ThoiGianKetThuc = ?)";
 $stmt = $conn->prepare($sql_check);
 $stmt->bind_param("ssssssssss", 
