@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đổi mật khẩu</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-blue-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+    <div class="text-center mb-6">
+      <i class="fas fa-key text-4xl text-green-500 mb-4"></i>
+      <h2 class="text-2xl font-bold text-gray-800">Đổi mật khẩu</h2>
+      <p class="text-gray-600 mt-2">Thay đổi mật khẩu để bảo mật tài khoản</p>
+    </div>
+
+    <form id="changePasswordForm">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          <i class="fas fa-user mr-2"></i>Tên đăng nhập
+        </label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Nhập tên đăng nhập"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          required
+        >
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          <i class="fas fa-lock mr-2"></i>Mật khẩu hiện tại
+        </label>
+        <div class="relative">
+          <input 
+            type="password" 
+            id="currentPassword" 
+            placeholder="Nhập mật khẩu hiện tại"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10"
+            required
+          >
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center toggle-password" data-target="currentPassword">
+            <i class="fas fa-eye text-gray-400"></i>
+          </button>
+        </div>
+        <small class="text-gray-500 text-xs mt-1">
+          <i class="fas fa-info-circle mr-1"></i>Mật khẩu mặc định là ngày sinh (ddmmyyyy)
+        </small>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2">
+          <i class="fas fa-key mr-2"></i>Mật khẩu mới
+        </label>
+        <div class="relative">
+          <input 
+            type="password" 
+            id="newPassword" 
+            placeholder="Nhập mật khẩu mới"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10"
+            required
+            minlength="6"
+          >
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center toggle-password" data-target="newPassword">
+            <i class="fas fa-eye text-gray-400"></i>
+          </button>
+        </div>
+        <small class="text-gray-500 text-xs mt-1">
+          <i class="fas fa-shield-alt mr-1"></i>Mật khẩu phải có ít nhất 6 ký tự
+        </small>
+      </div>
+
+      <button 
+        type="submit" 
+        class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center"
+      >
+        <i class="fas fa-save mr-2"></i>Đổi mật khẩu
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a href="dang_nhap.html" class="text-green-500 hover:text-green-600 text-sm">
+        <i class="fas fa-arrow-left mr-1"></i>Quay lại đăng nhập
+      </a>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      // Toggle hiển thị mật khẩu
+      $('.toggle-password').on('click', function() {
+        const targetId = $(this).data('target');
+        const target = $('#' + targetId);
+        const icon = $(this).find('i');
+        
+        if (target.attr('type') === 'password') {
+          target.attr('type', 'text');
+          icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+          target.attr('type', 'password');
+          icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+      });
+
+      // Xử lý form đổi mật khẩu
+      $('#changePasswordForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const username = $('#username').val().trim();
+        const currentPassword = $('#currentPassword').val();
+        const newPassword = $('#newPassword').val();
+
+        if (!username || !currentPassword || !newPassword) {
+          alert('Vui lòng nhập đầy đủ thông tin!');
+          return;
+        }
+
+        if (newPassword.length < 6) {
+          alert('Mật khẩu mới phải có ít nhất 6 ký tự!');
+          return;
+        }
+
+        if (currentPassword === newPassword) {
+          alert('Mật khẩu mới không được trùng với mật khẩu hiện tại!');
+          return;
+        }
+
+        // Gửi yêu cầu đổi mật khẩu
+        $.ajax({
+          url: "http://localhost/qlvt/php/Users/api_change_password.php",
+          type: "POST",
+          data: {
+            username: username,
+            current_password: currentPassword,
+            new_password: newPassword
+          },
+          dataType: "json",
+          beforeSend: function() {
+            $('button[type="submit"]').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Đang xử lý...');
+          },
+          success: function(res) {
+            if (res.success) {
+              alert('Đổi mật khẩu thành công!\nVui lòng đăng nhập lại với mật khẩu mới.');
+              window.location.href = 'dang_nhap.html';
+            } else {
+              alert('Lỗi: ' + res.message);
+            }
+          },
+          error: function(xhr) {
+            console.log('Lỗi:', xhr.responseText);
+            alert('Không thể kết nối đến server. Vui lòng thử lại!');
+          },
+          complete: function() {
+            $('button[type="submit"]').prop('disabled', false).html('<i class="fas fa-save mr-2"></i>Đổi mật khẩu');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

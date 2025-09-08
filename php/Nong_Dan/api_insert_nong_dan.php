@@ -7,44 +7,87 @@ ini_set('display_errors', 1);
 include 'config.php';
 header('Content-Type: application/json; charset=UTF-8');
 
-// Lấy dữ liệu từ POST
-$MaND   = $_POST['MaND']   ?? '';
-$HoTen  = $_POST['HoTen']  ?? '';
-$CuTru  = $_POST['CuTru']  ?? '';   // đổi từ DiaChi -> CuTru
+// Cấu hình kết nối DB qlvt trực tiếp
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "qlvt";
 
-// Kiểm tra dữ liệu không được rỗng
-if (!empty($MaND) && !empty($HoTen) && !empty($CuTru)) {
-    try {
-        // Chuẩn bị câu lệnh
-        $stmt = $conn->prepare("INSERT INTO nongdan (MaND, HoTen, CuTru) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $MaND, $HoTen, $CuTru);
+// Tạo kết nối
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Thực thi câu lệnh
-        if ($stmt->execute()) {
-            echo json_encode([
-                "status" => "success",
-                "message" => "Thêm nông dân thành công"
-            ], JSON_UNESCAPED_UNICODE);
-        } else {
-            echo json_encode([
-                "status" => "error",
-                "message" => "Không thể thêm dữ liệu"
-            ], JSON_UNESCAPED_UNICODE);
-        }
-
-        $stmt->close();
-    } catch (Exception $e) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Lỗi: " . $e->getMessage()
-        ], JSON_UNESCAPED_UNICODE);
-    }
-} else {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Thiếu dữ liệu đầu vào"
-    ], JSON_UNESCAPED_UNICODE);
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(["success" => false, "message" => "Kết nối database thất bại: " . $conn->connect_error]);
+    exit;
 }
 
+header('Content-Type: application/json; charset=utf-8');
+
+// Lấy dữ liệu từ POST
+$MaND = $_POST['MaND'] ?? '';
+$HoTen = $_POST['HoTen'] ?? '';
+$CuTru = $_POST['CuTru'] ?? '';   
+$NgaySinh = $_POST['NgaySinh'] ?? '';
+
+// Kiểm tra dữ liệu không được rỗng
+if ($MaND == '' || $HoTen == '' || $CuTru == '' || $NgaySinh == '') {
+    echo json_encode(["success" => false, "message" => "Thiếu thông tin: Mã nông dân, họ tên, cư trú, ngày sinh"]);
+    $conn->close();
+    exit;
+}
+
+// QUAN TRỌNG: Kiểm tra mã nông dân đã tồn tại chưa
+$sql_check = "SELECT MaND FROM nongdan WHERE MaND = ?";
+$stmt_check = $conn->prepare($sql_check);
+
+if (!$stmt_check) {
+    echo json_encode(["success" => false, "message" => "Lỗi prepare statement: " . $conn->error]);
+    $conn->close();
+    exit;
+}
+
+$stmt_check->bind_param("s", $MaND);
+$stmt_check->execute();
+$result_check = $stmt_check->get_result();
+
+if ($result_check->num_rows > 0) {
+    echo json_encode(["success" => false, "message" => "Mã nông dân '$MaND' đã tồn tại. Vui lòng sử dụng mã khác!"]);
+    $stmt_check->close();
+    $conn->close();
+    exit;
+}
+
+$stmt_check->close();
+
+// Thêm nông dân mới
+$sql_insert = "INSERT INTO nongdan (MaND, HoTen, CuTru, NgaySinh) VALUES (?, ?, ?, ?)";
+$stmt_insert = $conn->prepare($sql_insert);
+
+if (!$stmt_insert) {
+    echo json_encode(["success" => false, "message" => "Lỗi prepare statement: " . $conn->error]);
+    $conn->close();
+    exit;
+}
+
+$stmt_insert->bind_param("ssss", $MaND, $HoTen, $CuTru, $NgaySinh);
+
+if ($stmt_insert->execute()) {
+    echo json_encode([
+        "success" => true, 
+        "message" => "Thêm nông dân thành công",
+        "data" => [
+            "MaND" => $MaND,
+            "HoTen" => $HoTen,
+            "CuTru" => $CuTru,
+            "NgaySinh" => $NgaySinh
+        ]
+    ]);
+} else {
+    echo json_encode(["success" => false, "message" => "Lỗi khi thêm nông dân: " . $stmt_insert->error]);
+}
+
+$stmt_insert->close();
 $conn->close();
 ?>

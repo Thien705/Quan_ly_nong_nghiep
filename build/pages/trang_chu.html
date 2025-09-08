@@ -54,10 +54,18 @@
         <div>
           <h1 class="text-2xl font-bold" id="welcome-title">Xin chào</h1>
         </div>
-        <div id="user-info" class="flex items-center gap-2">
-          <span class="font-semibold text-green-700 border border-green-500 rounded px-3 py-1 bg-white shadow" id="username-display"></span>
-          <a href="dang_nhap.html" class="text-sm text-blue-500 underline">Đăng xuất</a>
-        </div>
+        <!-- Sửa phần user-info -->
+<div id="user-info" class="flex items-center gap-3">
+  <span class="font-semibold text-green-700 border border-green-500 rounded px-3 py-1 bg-white shadow" id="username-display"></span>
+  <a href="doi_mat_khau.html" class="flex items-center gap-2 text-sm text-orange-600 hover:text-orange-800 bg-orange-50 hover:bg-orange-100 px-3 py-1 rounded border border-orange-300 transition duration-200">
+    <i class="fas fa-key"></i>
+    <span>Đổi mật khẩu</span>
+  </a>
+  <a href="#" data-logout class="flex items-center gap-2 text-sm text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-3 py-1 rounded border border-red-300 transition duration-200">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Đăng xuất</span>
+  </a>
+</div>
       </div>
       <!-- Quick Stats -->
       <div class="grid grid-cols-3 gap-6 mb-8">
@@ -186,5 +194,6 @@
     }
     setInterval(randomStats, 5000);
   </script>
+  <script src="../assets/js/session.js"></script>
 </body>
 </html>

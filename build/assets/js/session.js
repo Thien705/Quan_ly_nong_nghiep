@@ -8,7 +8,8 @@
     const p = location.pathname;
     return p.endsWith('/dang_nhap.html') || p.endsWith('/dang_ky.html');
   }
-  // Chỉ cho phép user vào trang chủ, admin vào được cả 3 trang
+  
+  // Admin có thể vào tất cả 3 trang
   function isAdminAllowedPage() {
     return (
       location.pathname.endsWith('/trang_chu.html') ||
@@ -16,16 +17,48 @@
       location.pathname.endsWith('/quan_ly.html')
     );
   }
+  
+  // User chỉ có thể vào trang chủ và bảng thông tin
   function isUserAllowedPage() {
-    return location.pathname.endsWith('/trang_chu.html');
+    return (
+      location.pathname.endsWith('/trang_chu.html') ||
+      location.pathname.endsWith('/bang_thong_tin.html')
+    );
   }
 
   function ensureAuthAndRole() {
     const u = localStorage.getItem('username');
     const r = (localStorage.getItem('role') || 'user').toLowerCase();
-    if (!u && !isLoginOrRegister()) return location.replace(LOGIN_PAGE);
-    if (u && r === 'admin' && !isAdminAllowedPage()) return location.replace(USER_HOME);
-    if (u && r !== 'admin' && !isUserAllowedPage()) return location.replace(USER_HOME);
+    
+    // Debug thông tin
+    console.log('Current path:', location.pathname);
+    console.log('Username:', u);
+    console.log('Role:', r);
+    console.log('Is login page:', isLoginOrRegister());
+    console.log('Is user allowed:', isUserAllowedPage());
+    
+    if (!u && !isLoginOrRegister()) {
+      console.log('Redirecting to login - no username');
+      return location.replace(LOGIN_PAGE);
+    }
+    
+    if (u && r === 'admin' && !isAdminAllowedPage()) {
+      console.log('Admin redirect to home');
+      return location.replace(USER_HOME);
+    }
+    
+    if (u && r !== 'admin' && !isUserAllowedPage()) {
+      console.log('User redirect to home - not allowed page');
+      
+      // Hiển thị thông báo khi user cố truy cập trang quản lý
+      if (location.pathname.endsWith('/quan_ly.html')) {
+        alert('Bạn không có quyền truy cập trang này!');
+      }
+      
+      return location.replace(USER_HOME);
+    }
+    
+    console.log('Access granted');
   }
 
   // Chặn truy cập ngay
